@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolidayApp", "HolidayApp\HolidayApp.csproj", "{2B676384-7213-4615-81DC-73C5710B0A4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppHoliday.UnitTests", "AppHoliday.UnitTests\AppHoliday.UnitTests.csproj", "{44C8326C-E1D0-4E7F-84FC-15B94AD80848}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2B676384-7213-4615-81DC-73C5710B0A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B676384-7213-4615-81DC-73C5710B0A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B676384-7213-4615-81DC-73C5710B0A4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44C8326C-E1D0-4E7F-84FC-15B94AD80848}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C8326C-E1D0-4E7F-84FC-15B94AD80848}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C8326C-E1D0-4E7F-84FC-15B94AD80848}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C8326C-E1D0-4E7F-84FC-15B94AD80848}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

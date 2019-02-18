@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using HolidayApp.Entities;
 
 namespace HolidayApp.Models
 {
@@ -16,6 +18,14 @@ namespace HolidayApp.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+
+        public ICollection<Resort> Resorts { get; set; }
+        public ICollection<Hotel> Hotels { get; set; }
+
+        
+
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -24,6 +34,15 @@ namespace HolidayApp.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public virtual DbSet<Resort> Resorts { get; set; }
+        public virtual DbSet<Hotel> Hotels { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<HolidayHome> HolidayHomes { get; set; }
+        public virtual DbSet<Parking> Parkings { get; set; }
+
+
+
 
         public static ApplicationDbContext Create()
         {

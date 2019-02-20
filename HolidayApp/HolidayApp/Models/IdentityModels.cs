@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using HolidayApp.Entities;
+using HolidayApp.Seed;
 
 namespace HolidayApp.Models
 {
@@ -33,6 +34,8 @@ namespace HolidayApp.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+
+            Database.SetInitializer(new HolidayAppDbInitializer());
         }
 
         public virtual DbSet<Resort> Resorts { get; set; }

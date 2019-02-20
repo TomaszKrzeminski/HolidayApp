@@ -220,11 +220,28 @@
     <Compile Include="Migrations\201902181449593_One.Designer.cs">
       <DependentUpon>201902181449593_One.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902191434207_Two.cs" />
+    <Compile Include="Migrations\201902191434207_Two.Designer.cs">
+      <DependentUpon>201902191434207_Two.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902191713597_dwaaaa.cs" />
+    <Compile Include="Migrations\201902191713597_dwaaaa.Designer.cs">
+      <DependentUpon>201902191713597_dwaaaa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902191746127_three.cs" />
+    <Compile Include="Migrations\201902191746127_three.Designer.cs">
+      <DependentUpon>201902191746127_three.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902191757133_Four.cs" />
+    <Compile Include="Migrations\201902191757133_Four.Designer.cs">
+      <DependentUpon>201902191757133_Four.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seed\HolidayAppDbInitializer.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +326,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902181449593_One.resx">
       <DependentUpon>201902181449593_One.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902191434207_Two.resx">
+      <DependentUpon>201902191434207_Two.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902191713597_dwaaaa.resx">
+      <DependentUpon>201902191713597_dwaaaa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902191746127_three.resx">
+      <DependentUpon>201902191746127_three.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902191757133_Four.resx">
+      <DependentUpon>201902191757133_Four.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

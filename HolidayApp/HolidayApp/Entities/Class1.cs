@@ -23,9 +23,9 @@ namespace HolidayApp.Entities
 
         public int ApplicationUserID { get; set; }
         public Models.ApplicationUser ApplicationUser { get; set; }
-        public ICollection<Room> Rooms { get; set; }
-        public ICollection<Parking> Parkings { get; set; }
-        public ICollection<HolidayHome> HolidayHomes { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
+        public virtual ICollection<Parking> Parkings { get; set; }
+        public virtual ICollection<HolidayHome> HolidayHomes { get; set; }
 
     }
 
@@ -38,7 +38,7 @@ namespace HolidayApp.Entities
         {
             Rooms = new HashSet<Room>();
             Parkings = new HashSet<Parking>();
-           
+
         }
 
         public int HotelId { get; set; }
@@ -50,8 +50,8 @@ namespace HolidayApp.Entities
 
         public int ApplicationUserID { get; set; }
         public Models.ApplicationUser ApplicationUser { get; set; }
-        public ICollection<Room> Rooms { get; set; }
-        public ICollection<Parking> Parkings { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
+        public virtual ICollection<Parking> Parkings { get; set; }
 
     }
 
@@ -80,10 +80,10 @@ namespace HolidayApp.Entities
 
 
 
-        public int ResortId { get; set; }
+        //public int ResortId { get; set; }
         public Resort Resort { get; set; }
 
-        public int HotelId { get; set; }
+        //public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
 
     }
@@ -119,7 +119,7 @@ namespace HolidayApp.Entities
 
 
 
-        public int ResortId { get; set; }
+        //public int ResortId { get; set; }
         public Resort Resort { get; set; }
 
         
@@ -139,10 +139,10 @@ namespace HolidayApp.Entities
         public bool Guarded { get; set; }
 
 
-        public int ResortId { get; set; }
+        //public int ResortId { get; set; }
         public Resort Resort { get; set; }
 
-        public int HotelId { get; set; }
+        //public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
 
 

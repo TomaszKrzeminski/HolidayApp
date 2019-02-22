@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HolidayApp.Models
 {
+    public enum RolesEnum
+    {
+         Owner , Client 
+    }
+
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -79,7 +85,16 @@ namespace HolidayApp.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        public RolesEnum rolesEnum { get; set; }
+        public string RoleName { get; set; }
     }
+
+       
+
+
+        
+    
 
     public class ResetPasswordViewModel
     {
@@ -110,3 +125,4 @@ namespace HolidayApp.Models
         public string Email { get; set; }
     }
 }
+

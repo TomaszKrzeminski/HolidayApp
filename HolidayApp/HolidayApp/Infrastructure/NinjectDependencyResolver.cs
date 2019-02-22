@@ -1,4 +1,6 @@
-﻿using Ninject;
+﻿using HolidayApp.Abstract;
+using HolidayApp.Concrete;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace HolidayApp.Infrastructure
 
         private void AddBindings()
         {
-            
+            kernel.Bind<IHolidaysRepository>().To<EFHolidayRepository>();
         }
 
         public object GetService(Type serviceType)

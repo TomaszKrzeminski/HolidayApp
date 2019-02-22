@@ -1,7 +1,10 @@
 ﻿using HolidayApp.Entities;
 using HolidayApp.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -16,22 +19,116 @@ namespace HolidayApp.Seed
         {
 
 
-            //Resort resort = new Resort()  { ResortId=1,Name = "Resort Władysławowo", City = "Władysławowo", Country = "Poland", TelephoneNumber = 794219756 } ;
 
-            //context.Resorts.Add(resort);
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            string[] roleNames = new string[] { "Administrator", "Owner", "Client" };
+            IdentityResult roleResult;
+            foreach (var roleName in roleNames)
+            {
+                if (!roleManager.RoleExists(roleName))
+                {
+                    roleResult = roleManager.Create(new IdentityRole(roleName));
+                }
+            }
 
-            //context.SaveChanges();
+            
+
+            if (!context.Users.Any(u => u.UserName == "koral2323@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "koral2323@gmail.com" };
+                user.Email = "koral2323@gmail.com";
 
 
-            //Parking parking=new Parking() { Guarded = false, parkingPlaces = 100, pricePerDay = 20m };
+                manager.Create(user, "Daria21081985@");
+                manager.AddToRole(user.Id, "Administrator");
+            }
 
-            //context.Parkings.Add(parking);
 
-            //Resort resortx=   context.Resorts.Where(x => x.ResortId == 1).FirstOrDefault();
 
-            //resortx.Parkings.Add(parking);
+            if (!context.Users.Any(u => u.UserName == "1OwnerWladyslawowo@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "1OwnerWladyslawowo@gmail.com" };
+                user.Email = "1OwnerWladyslawowo@gmail.com";
 
-            //context.SaveChanges();
+
+                manager.Create(user, "Daria21081985@");
+                manager.AddToRole(user.Id, "Owner");
+            }
+            
+            if (!context.Users.Any(u => u.UserName == "2OwnerSopot@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "2OwnerSopot@gmail.com" };
+                user.Email = "2OwnerSopot@gmail.com";
+
+
+                manager.Create(user, "Daria21081985@");
+                manager.AddToRole(user.Id, "Owner");
+            }
+            if (!context.Users.Any(u => u.UserName == "3OwnerGdansk@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "3OwnerGdansk@gmail.com" };
+                user.Email = "3OwnerGdansk@gmail.com";
+
+
+                manager.Create(user, "Daria21081985@");
+                manager.AddToRole(user.Id, "Owner");
+            }
+            if (!context.Users.Any(u => u.UserName == "4OwnerKrakow@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "4OwnerKrakow@gmail.com" };
+                user.Email = "4OwnerKrakow@gmail.com";
+
+
+                manager.Create(user, "Daria21081985@");
+                manager.AddToRole(user.Id, "Owner");
+            }
+            if (!context.Users.Any(u => u.UserName == "5OwnerWarszawa@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "5OwnerWarszawa@gmail.com" };
+                user.Email = "5OwnerWarszawa@gmail.com";
+
+
+                manager.Create(user, "Daria21081985@");
+                manager.AddToRole(user.Id, "Owner");
+            }
+            if (!context.Users.Any(u => u.UserName == "6OwnerKatowice@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "6OwnerKatowice@gmail.com" };
+                user.Email = "6OwnerKatowice@gmail.com";
+
+
+                manager.Create(user, "Daria21081985@");
+                manager.AddToRole(user.Id, "Owner");
+            }
+
+
+
+
+
+
+
+
+            context.SaveChanges();
+
+
+
+           
+
+
 
 
             List<Resort> resortList = new List<Resort>();
@@ -41,6 +138,13 @@ namespace HolidayApp.Seed
 
             resortList.ForEach(x => context.Resorts.Add(x));
 
+          
+
+          
+
+
+
+
 
             List<Hotel> hotelList = new List<Hotel>();
             hotelList.Add(new Hotel() { Name = "Hotel Kraków", City = "Kraków", Country = "Poland", TelephoneNumber = 777888666 });
@@ -48,6 +152,24 @@ namespace HolidayApp.Seed
             hotelList.Add(new Hotel() { Name = "Hotel Katowice", City = "Katowice", Country = "Poland", TelephoneNumber = 777888444 });
 
             hotelList.ForEach(y => context.Hotels.Add(y));
+
+
+
+            List<ApplicationUser> userList = new List<ApplicationUser>();
+
+            userList.AddRange(context.Users.OrderBy(x => x.Email).Take(6));
+
+
+            for (int i = 0; i < 3; i++)
+            {
+                userList[i].Resorts.Add(resortList[i]);
+            }
+
+            for (int i = 0; i <3; i++)
+            {
+                userList[i+3].Hotels.Add(hotelList[i]);
+            }
+
 
             context.SaveChanges();
 
@@ -138,32 +260,7 @@ namespace HolidayApp.Seed
 
 
 
-            ////var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            ////string[] roleNames = new string[] { "Administrator", "Owner","Client" };
-            ////IdentityResult roleResult;
-            ////foreach (var roleName in roleNames)
-            ////{
-            ////    if (!roleManager.RoleExists(roleName))
-            ////    {
-            ////        roleResult = roleManager.Create(new IdentityRole(roleName));
-            ////    }
-            ////}
-
-            ////context.SaveChanges();
-
-            ////if (!context.Users.Any(u => u.UserName == "koral2323@gmail.com"))
-            ////{
-            ////    var store = new UserStore<ApplicationUser>(context);
-            ////    var manager = new UserManager<ApplicationUser>(store);
-            ////    var user = new ApplicationUser { UserName = "koral2323@gmail.com" };
-            ////    user.Email = "koral2323@gmail.com";
-
-
-            ////    manager.Create(user, "Daria21081985@");
-            ////    manager.AddToRole(user.Id, "Administrator");
-            ////}
-
-            ////context.SaveChanges();
+           
 
 
 

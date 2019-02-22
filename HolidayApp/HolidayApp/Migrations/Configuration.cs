@@ -1,11 +1,6 @@
-﻿namespace HolidayApp.Migrations
+namespace HolidayApp.Migrations
 {
-    using HolidayApp.Entities;
-    using HolidayApp.Models;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
-    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -15,19 +10,22 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "HolidayApp.Models.ApplicationDbContext";
         }
 
         protected override void Seed(HolidayApp.Models.ApplicationDbContext context)
         {
+            //  This method will be called after migrating to the latest version.
 
-
-          
-
-            base.Seed(context);
-
-
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
         }
     }
-   
 }

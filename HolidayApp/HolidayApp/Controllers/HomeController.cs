@@ -1,4 +1,5 @@
 ﻿using HolidayApp.Abstract;
+using HolidayApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,13 @@ namespace HolidayApp.Controllers
 
         public ActionResult Index()
         {
-            return View();
+
+            HolidayViewModel model = new HolidayViewModel();
+            model = repository.GetRandomPlaces();
+
+
+
+            return View(model);
         }
 
         

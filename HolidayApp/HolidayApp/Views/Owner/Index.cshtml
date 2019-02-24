@@ -1,0 +1,60 @@
+﻿@using HolidayApp.Models
+@model HolidayViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-4">
+            <h2>List of Hotels</h2>
+            @foreach (var item in Model.HotelList)
+            {
+                <div>@item.Name  @item.City</div>
+            }
+
+        </div>
+        <div class="col-lg-4">
+            <h2>List of Resorts</h2>
+            @foreach (var item in Model.ResortList)
+            {
+                <div>@item.Name  @item.City</div>
+            }
+        </div>
+        <div class="col-lg-4">
+            <h2>List of Rooms</h2>
+         
+            @foreach (var item in Model.RoomList)
+            {
+
+                if (item.Hotel != null)
+                {
+                    <div>
+                        <p>@item.Hotel.Name  </p>   <p> @item.Hotel.City</p>
+
+                        <p>@item.numberofGuests</p>
+
+                    </div>
+                }
+                else if (item.Resort != null)
+                {
+                    <div>
+                        <p>   @item.Resort.Name</p>   <p>@item.Resort.City </p>
+
+                        <p>@item.numberofGuests</p>
+
+                    </div>
+                }
+
+
+            }
+
+                       
+
+
+      </div>
+
+    </div>
+</div>
+

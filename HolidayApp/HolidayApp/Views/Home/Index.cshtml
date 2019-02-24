@@ -1,14 +1,80 @@
-﻿@{
+﻿@using HolidayApp.Models
+@model HolidayViewModel
+
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="container">
     <div class="row">
         <div class="col-lg-4" id="SortElements" style="background-color:greenyellow;">
-            dddddddddd
+           Sort Form
         </div>
         <div class="col-lg-8" id="ShowElements" style="background-color:yellow;">
-            dddfdfdfdfdfdfdfd
+            
+            <div>
+
+                @foreach (var item in Model.HotelList)
+                {
+                    <div>
+                        <p>@item.Name</p>   <p>@item.City</p>
+
+                        <p>@item.Rooms.FirstOrDefault().numberofGuests</p>
+
+                    </div>
+                }
+
+
+            </div>
+            
+            <div>
+                <br />
+                @foreach (var item in Model.ResortList)
+                {
+                    <div>
+                        <p>@item.Name</p>   <p>@item.City</p>
+
+                        <p>@item.Rooms.FirstOrDefault().numberofGuests</p>
+
+                    </div>
+                }
+
+
+            </div>
+            <br />
+            <div>
+
+                @foreach (var item in Model.RoomList)
+                {
+
+                    if (item.Hotel != null)
+                    {
+                        <div>
+                            <p>@item.Hotel.Name  </p>   <p> @item.Hotel.City</p>  
+
+                            <p>@item.numberofGuests</p>
+
+                        </div>
+                    }
+                    else if(item.Resort!=null)
+                    {
+                        <div>
+                            <p>   @item.Resort.Name</p>   <p>@item.Resort.City </p>
+
+                            <p>@item.numberofGuests</p>
+
+                        </div>
+                    }
+
+
+                }
+
+
+            </div>
+
+
+
         </div>
     </div>
 </div>

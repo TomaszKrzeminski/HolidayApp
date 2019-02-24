@@ -21,8 +21,9 @@ namespace HolidayApp.Entities
         public string Country { get; set; }
         public int TelephoneNumber { get; set; }
 
-        public int ApplicationUserID { get; set; }
+        public string ApplicationUserID { get; set; }
         public Models.ApplicationUser ApplicationUser { get; set; }
+
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<Parking> Parkings { get; set; }
         public virtual ICollection<HolidayHome> HolidayHomes { get; set; }
@@ -48,7 +49,7 @@ namespace HolidayApp.Entities
         public int TelephoneNumber { get; set; }
 
 
-        public int ApplicationUserID { get; set; }
+        public  string ApplicationUserID { get; set; }
         public Models.ApplicationUser ApplicationUser { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<Parking> Parkings { get; set; }

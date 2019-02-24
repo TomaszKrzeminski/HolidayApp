@@ -1,5 +1,8 @@
-﻿using System;
+﻿using HolidayApp.Models;
+using HolidayApp.Seed;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +16,21 @@ namespace HolidayApp
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
+            ////
+
+            Database.SetInitializer(new HolidayAppDbInitializer());
+
+            // Forces initialization of database on model changes.
+            using (var context = new ApplicationDbContext())
+            {
+                context.Database.Initialize(force: true);
+
+
+            }
+
+                ////
+                FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }

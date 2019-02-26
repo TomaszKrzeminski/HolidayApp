@@ -1,0 +1,51 @@
+﻿@using HolidayApp.Entities
+@model Hotel
+@{
+    ViewBag.Title = "AddHotel";
+}
+
+<h2>AddResort</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2 ">
+
+        </div>
+        <div class="col-lg-8">
+            @using (Html.BeginForm("AddHotel", "Owner"))
+            {
+                <div>
+                    @Html.LabelFor(x => x.Name)
+                    <br />
+                    @Html.TextBoxFor(x => x.Name)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.City)
+                    <br />
+                    @Html.TextBoxFor(x => x.City)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.TelephoneNumber)
+                    <br />
+                    @Html.TextBoxFor(x => x.TelephoneNumber)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.Country)
+                    <br />
+                    @Html.TextBoxFor(x => x.Country)
+                </div>
+                <div>
+                    <br />
+                    <input type="submit" value="Add" />
+                </div>
+
+            }
+        </div>
+
+        <div class="col-lg-2 ">
+
+        </div>
+    </div>
+</div>
+
+

@@ -4,6 +4,8 @@
 
 @{
     ViewBag.Title = "Home Page";
+    bool showHotel;
+    bool showResort;
 }
 
 <div class="container">
@@ -20,7 +22,7 @@
                     <div>
                         <p>@item.Name</p>   <p>@item.City</p>
 
-                        <p>@item.Rooms.FirstOrDefault().numberofGuests</p>
+                        @*<p>@item.Rooms.FirstOrDefault().numberofGuests</p>*@
 
                     </div>
                 }
@@ -35,7 +37,7 @@
                     <div>
                         <p>@item.Name</p>   <p>@item.City</p>
 
-                        <p>@item.Rooms.FirstOrDefault().numberofGuests</p>
+                        @*<p>@item.Rooms.FirstOrDefault().numberofGuests</p>*@
 
                     </div>
                 }
@@ -48,7 +50,31 @@
                 @foreach (var item in Model.RoomList)
                 {
 
-                    if (item.Hotel != null)
+                    {
+
+                        try
+                        {
+                            showHotel = item.Hotel != null;
+                        }
+                        catch
+                        {
+                            showHotel = false;
+                        }
+
+                        try
+                        {
+                            showResort = item.Resort != null;
+                        }
+                        catch
+                        {
+                            showResort = false;
+                        }
+
+
+                    }
+
+
+                    if (showHotel)
                     {
                         <div>
                             <p>@item.Hotel.Name  </p>   <p> @item.Hotel.City</p>  
@@ -57,7 +83,7 @@
 
                         </div>
                     }
-                    else if(item.Resort!=null)
+                    else if(showResort)
                     {
                         <div>
                             <p>   @item.Resort.Name</p>   <p>@item.Resort.City </p>

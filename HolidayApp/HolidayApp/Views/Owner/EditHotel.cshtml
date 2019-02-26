@@ -1,0 +1,81 @@
+﻿@using HolidayApp.Entities
+@model Hotel
+@{
+    ViewBag.Title = "EditHotel";
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 ">
+            <h2>Room</h2>
+            @if (Model.Rooms != null)
+            {                 <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Room Id</th>
+                            <th>Number of Guests</th>
+                            <th>Number of Beds</th>
+                            <th>Delete Room</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Rooms)
+                        {
+                            <tr>
+                                <td>@item.RoomId</td>
+                                <td>@item.numberofGuests</td>
+                                <td>@item.numberofBeds</td>
+                                <td>@Html.ActionLink("Delete", "DeleteRoom", new { id = item.RoomId }) </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.ActionLink("Add Room", "AddRoom", new {id=Model.HotelId,name="Hotel" })
+            }
+
+
+
+
+        </div>
+        <div class="col-lg-4">
+            <h2>Edit Hotel</h2>
+            @using (Html.BeginForm("EditHotel", "Owner"))
+            {
+                <div>
+                    @Html.LabelFor(x => x.Name)
+                    <br />
+                    @Html.TextBoxFor(x => x.Name)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.City)
+                    <br />
+                    @Html.TextBoxFor(x => x.City)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.TelephoneNumber)
+                    <br />
+                    @Html.TextBoxFor(x => x.TelephoneNumber)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.Country)
+                    <br />
+                    @Html.TextBoxFor(x => x.Country)
+                </div>
+                @Html.Hidden("HotelId")
+                <div>
+                    <br />
+                    <input type="submit" value="Change" />
+                </div>
+
+            }
+        </div>
+
+        <div class="col-lg-4 ">
+
+        </div>
+    </div>
+</div>
+
+

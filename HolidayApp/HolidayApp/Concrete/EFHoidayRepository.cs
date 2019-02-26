@@ -5,12 +5,143 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace HolidayApp.Concrete
 {
     public class EFHolidayRepository : IHolidaysRepository
     {
         private ApplicationDbContext context = new ApplicationDbContext();
+
+        public bool AddHotel(Hotel hotel, string UserId)
+        {
+
+            try
+            {
+                ApplicationUser user = context.Users.Find(UserId);
+
+                user.Hotels.Add(hotel);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+
+        }
+
+        public bool AddResort(Resort resort, string UserId)
+        {
+
+            try
+            {
+                ApplicationUser user = context.Users.Find(UserId);
+
+                user.Resorts.Add(resort);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+
+
+
+
+
+        }
+
+        public bool AddRoomToHotel(Room room, int id)
+        {
+            try
+            {
+                Hotel hotel = context.Hotels.Find(id);
+                hotel.Rooms.Add(room);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+
+
+
+        }
+
+        public bool AddRoomToResort(Room room, int id)
+        {
+
+            try
+            {
+                Resort resort = context.Resorts.Find(id);
+                resort.Rooms.Add(room);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+
+
+
+        }
+
+        public bool ChangeHotel(Hotel hotel)
+        {
+
+            Hotel hotelChange = context.Hotels.Find(hotel.HotelId);
+            hotelChange.Name = hotel.Name;
+            hotelChange.City = hotel.City;
+            hotelChange.Country = hotel.Country;
+            hotelChange.TelephoneNumber = hotel.TelephoneNumber;
+            context.SaveChanges();
+            return true;
+
+
+
+
+
+        }
+
+        public bool ChangeResort(Resort resort)
+        {
+            Resort resortChange = context.Resorts.Find(resort.ResortId);
+            resortChange.Name = resort.Name;
+            resortChange.City = resort.City;
+            resortChange.Country = resort.Country;
+            resortChange.TelephoneNumber = resort.TelephoneNumber;
+            context.SaveChanges();
+            return true;
+
+
+
+        }
+
+        public Hotel GetHotelByID(int id)
+        {
+            Hotel hotel = new Hotel();
+            try
+            {
+
+                hotel = context.Hotels.Find(id);
+                return hotel;
+
+            }
+            catch
+            {
+                return hotel;
+            }
+
+
+        }
 
         public HolidayViewModel GetModelByUser(string UserId)
         {
@@ -51,7 +182,7 @@ namespace HolidayApp.Concrete
                     {
                         roomList.AddRange(item.Rooms);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
@@ -71,7 +202,7 @@ namespace HolidayApp.Concrete
                     {
                         roomList.AddRange(item.Rooms);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
@@ -197,6 +328,58 @@ namespace HolidayApp.Concrete
 
 
             return viewModel;
+
+
+        }
+
+        public Resort GetResortByID(int id)
+        {
+
+            try
+            {
+                Resort resort = context.Resorts.Find(id);
+                return resort;
+            }
+            catch
+            {
+                return new Resort();
+            }
+
+
+        }
+
+        public Room GetRoomById(int id)
+        {
+
+            try
+            {
+                Room room = context.Rooms.Find(id);
+                return room;
+
+            }
+            catch
+            {
+                return new Room();
+            }
+        }
+
+        public bool RemoveRoom(int id)
+        {
+
+
+            try
+            {
+                Room room = context.Rooms.Find(id);
+                context.Rooms.Remove(room);
+                context.SaveChanges();
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+
 
 
         }

@@ -1,0 +1,64 @@
+﻿@using HolidayApp.Models
+@model AddRoomViewModel
+@{
+    ViewBag.Title = "AddRoomToResort";
+}
+
+<h2>AddRoomToResort</h2>
+
+<div class="col-lg-4">
+    @using (Html.BeginForm("AddRoom", "Owner"))
+            {
+        <div>
+            @Html.LabelFor(x => x.room.numberofGuests)
+            <br />
+            @Html.TextBoxFor(x => x.room.numberofGuests)
+        </div>
+                <div>
+                    @Html.LabelFor(x => x.room.numberofBeds)
+                    <br />
+                    @Html.TextBoxFor(x => x.room.numberofBeds)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.room.numberofTelevisions)
+                    <br />
+                    @Html.TextBoxFor(x => x.room.numberofTelevisions)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.room.petsAllowed)
+                    <br />
+                    @Html.CheckBoxFor(x => x.room.petsAllowed)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.room.Price)
+                    <br />
+                    @Html.TextBoxFor(x => x.room.Price)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.room.Toilet)
+                    <br />
+                    @Html.CheckBoxFor(x => x.room.Toilet)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.room.doubleBed)
+                    <br />
+                    @Html.CheckBoxFor(x => x.room.doubleBed)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.room.Kitchen)
+                    <br />
+                    @Html.CheckBoxFor(x => x.room.Kitchen)
+                </div>
+                
+    @Html.Hidden("name",Model.name)
+        @Html.Hidden("id",Model.id)
+
+
+              
+                <div>
+                    <br />
+                    <input type="submit" value="Add" />
+                </div>
+
+    }
+</div>

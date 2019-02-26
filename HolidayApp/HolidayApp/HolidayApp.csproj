@@ -216,6 +216,7 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddRoomViewModel.cs" />
     <Compile Include="Models\HolidayViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -286,6 +287,13 @@
     <Content Include="Views\Home\GetDetails.cshtml" />
     <Content Include="Views\Home\SortElementsinDetails.cshtml" />
     <Content Include="Views\Owner\Index.cshtml" />
+    <Content Include="Views\Owner\AddResort.cshtml" />
+    <Content Include="Views\Owner\Error.cshtml" />
+    <Content Include="Views\Owner\AddHotel.cshtml" />
+    <Content Include="Views\Owner\EditHotel.cshtml" />
+    <Content Include="Views\Owner\EditResort.cshtml" />
+    <Content Include="Views\Owner\AddRoomToHotel.cshtml" />
+    <Content Include="Views\Owner\AddRoomToResort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

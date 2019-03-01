@@ -11,7 +11,11 @@
             <h2>List of Hotels</h2>
             @foreach (var item in Model.HotelList)
             {
-                <div>@item.Name  @item.City   @Html.ActionLink("Edit Hotel", "EditHotel", new { Id = item.HotelId })    </div>
+                if (item != null)
+                {
+                    <div>@item.Name  @item.City   @Html.ActionLink("Edit Hotel", "EditHotel", new { Id = item.HotelId })    </div>
+                }
+
             }
 
             @Html.ActionLink("Add Hotel", "AddHotel")
@@ -20,7 +24,13 @@
             <h2>List of Resorts</h2>
             @foreach (var item in Model.ResortList)
             {
-                <div>@item.Name  @item.City   @Html.ActionLink("Edit Resort", "EditResort", new { Id = item.ResortId }) </div>
+
+                if (item != null)
+                {
+                    <div>@item.Name  @item.City   @Html.ActionLink("Edit Resort", "EditResort", new { Id = item.ResortId }) </div>
+                }
+
+
             }
 
             @Html.ActionLink("Add Resort", "AddResort")

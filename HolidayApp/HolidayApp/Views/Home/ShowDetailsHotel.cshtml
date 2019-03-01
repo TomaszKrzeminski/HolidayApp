@@ -1,0 +1,60 @@
+﻿@using HolidayApp.Entities
+@model Hotel
+@{
+    ViewBag.Title = "ShowDetailsHotel";
+}
+
+<h2>ShowDetailsHotel</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" id="PictureBig">
+
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12" id="PicturesSmall">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8" id="Description">
+
+        </div>
+        <div class="col-lg-4" id="Stats">
+            <table class="table-responsive">
+
+                <tbody>
+                    <tr>
+                        <td>Name </td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td>@Model.Country</td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td>@Model.City</td>
+                    </tr>
+                    <tr>
+                        <td>Telephone</td>
+                        <td>@Model.TelephoneNumber</td>
+                    </tr>
+
+                </tbody>
+
+
+
+            </table>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>

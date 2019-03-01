@@ -1,0 +1,70 @@
+﻿@using HolidayApp.Models
+@model AddHolidayHomeViewModel
+@{
+    ViewBag.Title = "AddHolidayHometoResort";
+}
+
+<h2>AddRoomToResort</h2>
+
+<div class="col-lg-4">
+    @using (Html.BeginForm("AddHolidayHome", "Owner"))
+            {
+        <div>
+            @Html.LabelFor(x => x.holidayhome.numberofGuests)
+            <br />
+            @Html.TextBoxFor(x => x.holidayhome.numberofGuests)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.holidayhome.numberofBeds)
+            <br />
+            @Html.TextBoxFor(x => x.holidayhome.numberofBeds)
+        </div>
+                <div>
+                    @Html.LabelFor(x => x.holidayhome.numberofTelevisions)
+                    <br />
+                    @Html.TextBoxFor(x => x.holidayhome.numberofTelevisions)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.holidayhome.petsAllowed)
+                    <br />
+                    @Html.CheckBoxFor(x => x.holidayhome.petsAllowed)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.holidayhome.Price)
+                    <br />
+                    @Html.TextBoxFor(x => x.holidayhome.Price)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.holidayhome.Toilet)
+                    <br />
+                    @Html.CheckBoxFor(x => x.holidayhome.Toilet)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.holidayhome.doubleBed)
+                    <br />
+                    @Html.CheckBoxFor(x => x.holidayhome.doubleBed)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.holidayhome.Kitchen)
+                    <br />
+                    @Html.CheckBoxFor(x => x.holidayhome.Kitchen)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.holidayhome.numberofFloors)
+                    <br />
+                    @Html.TextBoxFor(x => x.holidayhome.numberofFloors)
+                </div>
+
+                @Html.Hidden("name", Model.name)
+                @Html.Hidden("id", Model.id)
+
+
+
+                <div>
+                    <br />
+                    <input type="submit" value="Add" />
+                </div>
+
+    }
+</div>
+

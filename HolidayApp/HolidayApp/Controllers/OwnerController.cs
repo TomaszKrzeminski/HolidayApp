@@ -106,7 +106,7 @@ return   RedirectToAction("Index", "Owner");
         }
 
 
-        public ActionResult DeleteRoom (int id)
+        public ActionResult DeleteRoom (int id, int resortId, int hotelId)
         {
 
             Room room = repository.GetRoomById(id);
@@ -114,18 +114,82 @@ return   RedirectToAction("Index", "Owner");
             repository.RemoveRoom(id);
 
 
-            if (room.Hotel != null)
+            if (hotelId != 0)
             {
-                return RedirectToAction("EditHotel", "Owner", new {id=room.Hotel.HotelId });
+                return RedirectToAction("EditHotel", "Owner", new {id= hotelId });
             }
             else
             {
-                return RedirectToAction("EditResort", "Owner",new { id = room.Resort.ResortId });
+                return RedirectToAction("EditResort", "Owner",new { id = resortId });
             }
             
 
 
         }
+
+        public ActionResult DeleteParking(int id,int resortId,int hotelId)
+        {
+
+            Parking parking = repository.GetParkingById(id);
+
+            repository.RemoveParking(id);
+
+
+            if (hotelId != 0)
+            {
+                return RedirectToAction("EditHotel", "Owner", new { id = hotelId });
+            }
+            else
+            {
+                return RedirectToAction("EditResort", "Owner", new { id = resortId });
+            }
+
+
+
+        }
+
+
+        public ActionResult DeleteHolidayHome(int id,int resortId)
+        {
+            HolidayHome holidayHome = repository.GetHolidayHomeById(id);
+            repository.RemoveHolidayHome(id);
+
+          
+                return RedirectToAction("EditResort", "Owner", new { id = resortId });
+           
+
+
+        }
+
+
+
+        public ActionResult RemoveResort(int id)
+        {
+
+
+            repository.RemoveResort(id);
+
+            return RedirectToAction("Index");
+
+
+
+        }
+
+        public ActionResult RemoveHotel(int id)
+        {
+
+
+            repository.RemoveHotel(id);
+
+            return RedirectToAction("Index");
+
+
+
+        }
+
+
+
+
 
 
         public ActionResult AddRoom(int id,string name)
@@ -164,6 +228,76 @@ return   RedirectToAction("Index", "Owner");
             return View("Error");
 
         }
+
+
+
+        public ActionResult AddHolidayHome(int id, string name)
+        {
+
+                   
+                return View("AddHolidayHomeToResort", new AddHolidayHomeViewModel() { name = name, id = id });
+          
+        }
+
+        [HttpPost]
+        public ActionResult AddHolidayHome(HolidayHome holidayhome, string name, int id)
+        {
+
+          
+            
+                repository.AddHolidayHomeToResort(holidayhome, id);
+                return RedirectToAction("EditResort", new { id = id });
+           
+
+
+          
+
+        }
+
+
+
+
+
+
+
+        public ActionResult AddParking(int id, string name)
+        {
+
+            if (name == "Hotel")
+            {
+                return View("AddParkingToHotel", new AddParkingViewModel() { name = name, id = id });
+            }
+            else if (name == "Resort")
+            {
+                return View("AddParkingToResort", new AddParkingViewModel() { name = name, id = id });
+            }
+
+
+            return View("Error");
+
+        }
+
+        [HttpPost]
+        public ActionResult AddParking(Parking parking, string name, int id)
+        {
+
+            if (name == "Hotel")
+            {
+                repository.AddParkingToHotel(parking, id);
+                return RedirectToAction("EditHotel", new { id = id });
+            }
+            else if (name == "Resort")
+            {
+                repository.AddParkingToResort(parking, id);
+                return RedirectToAction("EditResort", new { id = id });
+            }
+
+
+            return View("Error");
+
+        }
+
+
 
 
 

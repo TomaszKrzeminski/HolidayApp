@@ -27,7 +27,7 @@
                                 <td>@item.RoomId</td>
                                 <td>@item.numberofGuests</td>
                                 <td>@item.numberofBeds</td>
-                                <td>@Html.ActionLink("Delete", "DeleteRoom", new { id = item.RoomId }) </td>
+                                <td>@Html.ActionLink("Delete", "DeleteRoom", new { id = item.RoomId, resortId = 0, hotelId = Model.HotelId }) </td>
                             </tr>
                         }
                     </tbody>
@@ -68,11 +68,46 @@
                     <br />
                     <input type="submit" value="Change" />
                 </div>
-
+                <div>
+                    @Html.ActionLink("Remove Hotel", "RemoveHotel", new { id=Model.HotelId})
+                </div>
             }
         </div>
 
         <div class="col-lg-4 ">
+
+            @if (Model.Parkings != null)
+            {                 <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Parking Id</th>
+                        <th>Parking Places</th>
+                        <th>Price per Day</th>
+                        <th>Guarded</th>
+                        <th>Remove Parking</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Parkings)
+                    {
+                        <tr>
+                            <td>@item.ParkingId</td>
+                            <td>@item.parkingPlaces</td>
+                            <td>@item.pricePerDay</td>
+                            <td>@item.Guarded</td>
+                            <td>@Html.ActionLink("Delete", "DeleteParking", new { id = item.ParkingId,resortId=0,hotelId=Model.HotelId }) </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+                @Html.ActionLink("Add Parking", "AddParking", new { id = Model.HotelId, name = "Hotel" })
+            }
+
+
+
+
+
+
 
         </div>
     </div>

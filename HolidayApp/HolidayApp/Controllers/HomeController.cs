@@ -1,4 +1,5 @@
 ﻿using HolidayApp.Abstract;
+using HolidayApp.Entities;
 using HolidayApp.Models;
 using System;
 using System.Collections.Generic;
@@ -37,32 +38,33 @@ namespace HolidayApp.Controllers
             return View(model);
         }
 
-        
-        public ActionResult  SortElements()
+        public ActionResult ShowDetailsRoom(int Id)
         {
+            Room room = repository.GetRoomById(Id);
 
 
-            return PartialView();
+            return View(room);
         }
+     
 
 
-
-        public ActionResult ShowResults()
+        public ActionResult ShowDetailsHotel(int Id)
         {
+             Hotel hotel= repository.GetHotelByID(Id);
 
 
 
-
-            return PartialView();
+            return View(hotel);
         }
-
-        public ActionResult ShowDetails()
+        public ActionResult ShowDetailsResort(int Id)
         {
 
+            Resort resort = repository.GetResortByID(Id);
 
 
 
-            return View();
+
+            return View(resort);
         }
 
         public ActionResult GetDetails()
@@ -81,7 +83,23 @@ namespace HolidayApp.Controllers
 
             return PartialView();
         }
+   public ActionResult  SortElements()
+        {
 
+
+            return PartialView();
+        }
+
+
+
+        public ActionResult ShowResults()
+        {
+
+
+
+
+            return PartialView();
+        }
 
     }
 }

@@ -13,6 +13,27 @@ namespace HolidayApp.Concrete
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
+        public bool AddHolidayHomeToResort(HolidayHome holidayhome, int id)
+        {
+
+
+
+            try
+            {
+                Resort resort = context.Resorts.Find(id);
+                resort.HolidayHomes.Add(holidayhome);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+
+
+        }
+
         public bool AddHotel(Hotel hotel, string UserId)
         {
 
@@ -30,6 +51,42 @@ namespace HolidayApp.Concrete
             }
 
 
+        }
+
+        public bool AddParkingToHotel(Parking parking, int id)
+        {
+
+            try
+            {
+                Hotel hotel = context.Hotels.Find(id);
+                hotel.Parkings.Add(parking);
+                context.SaveChanges();
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+
+
+
+        }
+
+        public bool AddParkingToResort(Parking parking, int id)
+        {
+            try
+            {
+                Resort resort = context.Resorts.Find(id);
+                resort.Parkings.Add(parking);
+                context.SaveChanges();
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool AddResort(Resort resort, string UserId)
@@ -123,6 +180,20 @@ namespace HolidayApp.Concrete
 
 
 
+        }
+
+        public HolidayHome GetHolidayHomeById(int id)
+        {
+            try
+            {
+                HolidayHome holidayHome = context.HolidayHomes.Include("Resorts").Where(x => x.HolidayHomeId == id).First();
+                return holidayHome;
+
+            }
+            catch
+            {
+                return new HolidayHome();
+            }
         }
 
         public Hotel GetHotelByID(int id)
@@ -230,6 +301,24 @@ namespace HolidayApp.Concrete
 
         }
 
+        public Parking GetParkingById(int id)
+        {
+
+            try
+            {
+
+                Parking parking = context.Parkings.Find(id);
+                return parking;
+
+            }
+            catch
+            {
+                return new Parking();
+            }
+
+
+
+        }
 
         public HolidayViewModel GetRandomPlaces()
         {
@@ -263,7 +352,7 @@ namespace HolidayApp.Concrete
 
 
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 10; i++)
             {
                 if (countResort > 0)
                 {
@@ -300,7 +389,7 @@ namespace HolidayApp.Concrete
                 }
                 catch
                 {
-
+                    viewModel.HotelList.Add(new Hotel());
                 }
 
 
@@ -310,7 +399,7 @@ namespace HolidayApp.Concrete
                 }
                 catch
                 {
-
+                    viewModel.ResortList.Add(new Resort());
                 }
 
                 try
@@ -320,7 +409,7 @@ namespace HolidayApp.Concrete
                 catch
                 {
 
-
+                    viewModel.RoomList.Add(new Room());
                 }
 
 
@@ -361,6 +450,180 @@ namespace HolidayApp.Concrete
             {
                 return new Room();
             }
+        }
+
+        public bool RemoveHolidayHome(int id)
+        {
+            try
+            {
+                HolidayHome holidayHome = context.HolidayHomes.Find(id);
+                context.HolidayHomes.Remove(holidayHome);
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveHotel(int id)
+        {
+
+            try
+            {
+
+                Hotel hotel = context.Hotels.Find(id);
+
+
+                List<Parking> parkingList = hotel.Parkings.ToList();
+                List<Room> roomList = hotel.Rooms.ToList();
+              
+                if(parkingList.Count>0)
+                {
+                    foreach (var item in parkingList)
+                    {
+                        context.Parkings.Remove(item);
+                        context.SaveChanges();
+                    }
+
+                }
+
+
+                if(roomList.Count>0)
+                {
+
+                    foreach (var item in roomList)
+                    {
+                      context.Rooms.Remove(item);
+                        context.SaveChanges();
+                    }
+                   
+
+
+                }
+
+
+
+                context.Hotels.Remove(hotel);
+                context.SaveChanges();
+                return true;
+
+
+
+
+
+
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+
+
+
+
+
+        }
+
+        public bool RemoveParking(int id)
+        {
+
+
+            try
+            {
+                Parking parking = context.Parkings.Find(id);
+                context.Parkings.Remove(parking);
+                context.SaveChanges();
+                return true;
+
+            }
+            catch
+            {
+
+                return false;
+
+            }
+
+        }
+
+        public bool RemoveResort(int id)
+        {
+
+
+            try
+            {
+
+                Resort resort = context.Resorts.Find(id);
+
+
+                List<Parking> parkingList = resort.Parkings.ToList();
+                List<Room> roomList = resort.Rooms.ToList();
+                List<HolidayHome> holidayHomeList = resort.HolidayHomes.ToList();
+
+                if (parkingList.Count > 0)
+                {
+                    foreach (var item in parkingList)
+                    {
+                        context.Parkings.Remove(item);
+                        context.SaveChanges();
+                    }
+
+                }
+
+
+                if (roomList.Count > 0)
+                {
+
+                    foreach (var item in roomList)
+                    {
+                        context.Rooms.Remove(item);
+                        context.SaveChanges();
+                    }
+
+
+
+                }
+
+
+                if(holidayHomeList.Count>0)
+                {
+
+                    foreach (var item in holidayHomeList)
+                    {
+                        context.HolidayHomes.Remove(item);
+                        context.SaveChanges();
+                    }
+
+
+                }
+
+
+
+                context.Resorts.Remove(resort);
+                context.SaveChanges();
+                return true;
+
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+
+
+
+
+
+
+
+
+
         }
 
         public bool RemoveRoom(int id)

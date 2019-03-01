@@ -22,6 +22,16 @@ namespace HolidayApp.Abstract
         Room GetRoomById(int id);
         bool AddRoomToResort(Room room, int id);
         bool AddRoomToHotel(Room room, int id);
+        Parking GetParkingById(int id);
+        bool RemoveParking(int id);
+        bool AddParkingToHotel(Parking parking, int id);
+        bool AddParkingToResort(Parking parking, int id);
+        HolidayHome GetHolidayHomeById(int id);
+        bool RemoveHolidayHome(int id);
+        bool AddHolidayHomeToResort(HolidayHome holidayhome, int id);
+        bool RemoveHotel(int id);
+        bool RemoveResort(int id);
+        
         //bool AddRoom(Resort resort, Room room);
         //bool AddRoom(Hotel hotel, Room room);
         //bool AddParking(Resort resort, Parking parking);

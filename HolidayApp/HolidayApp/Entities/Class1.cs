@@ -82,10 +82,10 @@ namespace HolidayApp.Entities
 
 
         //public int ResortId { get; set; }
-        public Resort Resort { get; set; }
+        public virtual Resort Resort { get; set; }
 
         //public int HotelId { get; set; }
-        public Hotel Hotel { get; set; }
+        public virtual Hotel Hotel { get; set; }
 
     }
 
@@ -121,7 +121,7 @@ namespace HolidayApp.Entities
 
 
         //public int ResortId { get; set; }
-        public Resort Resort { get; set; }
+        public virtual Resort Resort { get; set; }
 
         
 
@@ -141,10 +141,10 @@ namespace HolidayApp.Entities
 
 
         //public int ResortId { get; set; }
-        public Resort Resort { get; set; }
+        public virtual Resort Resort { get; set; }
 
         //public int HotelId { get; set; }
-        public Hotel Hotel { get; set; }
+        public virtual Hotel Hotel { get; set; }
 
 
     }

@@ -20,7 +20,12 @@
                 @foreach (var item in Model.HotelList)
                 {
                     <div>
-                        <p>@item.Name</p>   <p>@item.City</p>
+                        @if (item != null)
+                        {
+                            
+                            <p>@Html.ActionLink(item.Name+"  "+item.City, "ShowDetailsHotel",new { Id = item.HotelId })</p>
+                        }
+
 
                         @*<p>@item.Rooms.FirstOrDefault().numberofGuests</p>*@
 
@@ -35,7 +40,12 @@
                 @foreach (var item in Model.ResortList)
                 {
                     <div>
-                        <p>@item.Name</p>   <p>@item.City</p>
+                        @if (item != null)
+                        {
+                           
+                            <p>@Html.ActionLink(item.Name + "  " + item.City, "ShowDetailsResort", new { Id = item.ResortId })</p>
+                        }
+
 
                         @*<p>@item.Rooms.FirstOrDefault().numberofGuests</p>*@
 
@@ -49,8 +59,23 @@
 
                 @foreach (var item in Model.RoomList)
                 {
-
+                    if (item!=null&&item.numberofGuests > 0)
                     {
+                        <div>
+                            @*<p>@item.Hotel.Name  </p>   <p> @item.Hotel.City</p>*@
+
+                           
+                            <p>@Html.ActionLink(item.numberofGuests + "  " + item.numberofBeds, "ShowDetailsRoom", new { Id = item.RoomId })</p>
+
+                        </div>
+
+                     
+                    }
+
+
+                }
+
+                    @*{
 
                         try
                         {
@@ -97,7 +122,7 @@
                 }
 
 
-            </div>
+            </div>*@
 
 
 

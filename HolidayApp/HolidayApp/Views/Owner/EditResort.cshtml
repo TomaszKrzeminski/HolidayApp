@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-4 ">
+        <div class="col-lg-3 ">
             <h2>Rooms</h2>
 
             @if (Model.Rooms != null)
@@ -30,7 +30,7 @@
                                 <td>@item.RoomId</td>
                                 <td>@item.numberofGuests</td>
                                 <td>@item.numberofBeds</td>
-                                <td>@Html.ActionLink("Delete","DeleteRoom",new {id=item.RoomId }) </td>
+                                <td>@Html.ActionLink("Delete","DeleteRoom",new {id=item.RoomId, resortId = Model.ResortId,hotelId=0 }) </td>
                             </tr>
                         }
                     </tbody>
@@ -40,22 +40,94 @@
 
 
 
-                @*foreach (var item in Model.Rooms)
-                {
-                    <div>
-                        <h3>@Html.Label("Room Id")  @item.RoomId </h3>     <p>@Html.Label("Number of Guests")     @item.numberofGuests </p> <p>@Html.Label("Number of Beds")   @item.numberofBeds</p>
-
-
-
-
-                    </div>
-                }*@
+           
             }
 
 
 
         </div>
-        <div class="col-lg-4">
+       
+
+        <div class="col-lg-4 ">
+            @if (Model.Parkings != null)
+            { 
+                <h2>Parking</h2>
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Parking Id</th>
+                        <th>Parking Places</th>
+                        <th>Price per Day</th>
+                        <th>Guarded</th>
+                        <th>Remove Parking</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Parkings)
+                    {
+                        <tr>
+                            <td>@item.ParkingId</td>
+                            <td>@item.parkingPlaces</td>
+                            <td>@item.pricePerDay</td>
+                            <td>@item.Guarded</td>
+                            <td>@Html.ActionLink("Delete", "DeleteParking", new { id = item.ParkingId, resortId=Model.ResortId,hotelId=0 }) </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @Html.ActionLink("Add Parking", "AddParking", new { id = Model.ResortId, name = "Resort" })
+            }
+
+
+        </div>
+        <div class="col-lg-5 ">
+            @if (Model.HolidayHomes != null)
+            {
+            <h2>Holiday Home</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>HolidayHome Id</th>
+                            <th>Number of Guests</th>
+                            <th>Number of Beds</th>
+                            <th>Floors</th>
+                            <th>Delete HolidayHome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.HolidayHomes)
+                        {
+                            <tr>
+                                <td>@item.HolidayHomeId</td>
+                                <td>@item.numberofGuests</td>
+                                <td>@item.numberofBeds</td>
+                                <td>@item.numberofFloors</td>
+                                <td>Floors</td>
+                                <td>@Html.ActionLink("Delete", "DeleteHolidayHome", new { id = item.HolidayHomeId, resortId = Model.ResortId }) </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.ActionLink("Add HolidayHome", "AddHolidayHome", new { id = Model.ResortId, name = "Resort" })
+
+
+
+
+
+            }
+
+
+        </div>
+
+
+       
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-3">
             <h2>Edit Resort</h2>
             @using (Html.BeginForm("EditResort", "Owner"))
             {
@@ -64,32 +136,35 @@
                     <br />
                     @Html.TextBoxFor(x => x.Name)
                 </div>
-                <div>
-                    @Html.LabelFor(x => x.City)
-                    <br />
-                    @Html.TextBoxFor(x => x.City)
-                </div>
-                <div>
-                    @Html.LabelFor(x => x.TelephoneNumber)
-                    <br />
-                    @Html.TextBoxFor(x => x.TelephoneNumber)
-                </div>
-                <div>
-                    @Html.LabelFor(x => x.Country)
-                    <br />
-                    @Html.TextBoxFor(x => x.Country)
-                </div>
-                @Html.Hidden("ResortId")
-                <div>
-                    <br />
-                    <input type="submit" value="Change" />
-                </div>
+                    <div>
+                        @Html.LabelFor(x => x.City)
+                        <br />
+                        @Html.TextBoxFor(x => x.City)
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.TelephoneNumber)
+                        <br />
+                        @Html.TextBoxFor(x => x.TelephoneNumber)
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Country)
+                        <br />
+                        @Html.TextBoxFor(x => x.Country)
+                    </div>
+                    @Html.Hidden("ResortId")
+                    <div>
+                        <br />
+                        <input type="submit" value="Change" />
+                    </div>
+                    <div>@Html.ActionLink("Remove Resort","RemoveResort",new { id = Model.ResortId })</div>
 
             }
         </div>
-
-        <div class="col-lg-4 ">
-
-        </div>
     </div>
+
+
+
+
+
+
 </div>

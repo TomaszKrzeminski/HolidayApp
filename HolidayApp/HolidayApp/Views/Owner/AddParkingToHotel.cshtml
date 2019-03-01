@@ -1,0 +1,36 @@
+﻿@using HolidayApp.Models
+@model AddParkingViewModel
+
+
+<h2>AddParkingToHotel</h2>
+
+<div class="col-lg-4">
+    @using (Html.BeginForm("AddParking", "Owner"))
+            {
+        <div>
+            @Html.LabelFor(x => x.parking.pricePerDay)
+            @Html.TextBoxFor(x => x.parking.pricePerDay)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.parking.Guarded)
+            @Html.CheckBoxFor(x => x.parking.Guarded)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.parking.parkingPlaces)
+            @Html.TextBoxFor(x => x.parking.parkingPlaces)
+        </div>
+
+
+
+        @Html.Hidden("name", Model.name)
+        @Html.Hidden("id", Model.id)
+
+
+
+        <div>
+            <br />
+            <input type="submit" value="Add" />
+        </div>
+
+    }
+</div>

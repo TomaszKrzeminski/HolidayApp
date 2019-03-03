@@ -1,0 +1,20 @@
+﻿@using HolidayApp.Models
+@model AddImagesModel
+@{
+    ViewBag.Title = "AddImages";
+}
+
+<h2>AddImages</h2>
+
+@using (Html.BeginForm("FileUpload", "Owner", FormMethod.Post,
+                                            new { enctype = "multipart/form-data" }))
+{
+    <label for="file">Upload Image:</label>
+    <div>
+        @Html.Hidden("type", Model.type)
+        @Html.Hidden("Id",Model.Id)
+    </div>
+        <input type="file" name="file" id="file" style="width: 100%;" />
+
+        <input type="submit" value="Upload" class="submit" />
+}

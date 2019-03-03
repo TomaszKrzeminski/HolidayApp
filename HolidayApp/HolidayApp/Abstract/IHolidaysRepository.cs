@@ -31,7 +31,16 @@ namespace HolidayApp.Abstract
         bool AddHolidayHomeToResort(HolidayHome holidayhome, int id);
         bool RemoveHotel(int id);
         bool RemoveResort(int id);
-        
+        string AddPictureResort(int Id, string Path);
+        string AddPictureHotel(int Id, string Path);
+        string AddPictureRoom(int Id, string Path);
+        string AddPictureParking(int Id, string Path);
+        string AddPictureHolidayHome(int Id, string Path);
+
+
+
+
+
         //bool AddRoom(Resort resort, Room room);
         //bool AddRoom(Hotel hotel, Room room);
         //bool AddParking(Resort resort, Parking parking);

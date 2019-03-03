@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-3 ">
+        <div class="col-lg-6 ">
             <h2>Rooms</h2>
 
             @if (Model.Rooms != null)
@@ -20,6 +20,7 @@
                             <th>Room Id</th>
                             <th>Number of Guests</th>
                             <th>Number of Beds</th>
+                            <th>Add Picture</th>
                             <th>Delete Room</th>
                         </tr>
                     </thead>
@@ -30,12 +31,13 @@
                                 <td>@item.RoomId</td>
                                 <td>@item.numberofGuests</td>
                                 <td>@item.numberofBeds</td>
-                                <td>@Html.ActionLink("Delete","DeleteRoom",new {id=item.RoomId, resortId = Model.ResortId,hotelId=0 }) </td>
+                                <td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = item.RoomId, type = 2 }, new { @class = "btn btn-success" })</td>
+                                <td>@Html.ActionLink("Delete","DeleteRoom",new {id=item.RoomId, resortId = Model.ResortId,hotelId=0 },new {@class="btn btn-danger" }) </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                @Html.ActionLink("Add Room", "AddRoom", new { id = Model.ResortId, name = "Resort" })
+                @Html.ActionLink("Add Room", "AddRoom", new { id = Model.ResortId, name = "Resort" }, new { @class = "btn btn-primary" })
 
 
 
@@ -48,7 +50,7 @@
         </div>
        
 
-        <div class="col-lg-4 ">
+        <div class="col-lg-6 ">
             @if (Model.Parkings != null)
             { 
                 <h2>Parking</h2>
@@ -59,6 +61,7 @@
                         <th>Parking Places</th>
                         <th>Price per Day</th>
                         <th>Guarded</th>
+                        <th>Add Picture</th>
                         <th>Remove Parking</th>
                     </tr>
                 </thead>
@@ -70,20 +73,31 @@
                             <td>@item.parkingPlaces</td>
                             <td>@item.pricePerDay</td>
                             <td>@item.Guarded</td>
-                            <td>@Html.ActionLink("Delete", "DeleteParking", new { id = item.ParkingId, resortId=Model.ResortId,hotelId=0 }) </td>
+                            <td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = item.ParkingId, type = 4 }, new { @class = "btn btn-success" })</td>
+                            <td>@Html.ActionLink("Delete", "DeleteParking", new { id = item.ParkingId, resortId=Model.ResortId,hotelId=0 }, new { @class = "btn btn-danger" }) </td>
                         </tr>
                     }
                 </tbody>
             </table>
-            @Html.ActionLink("Add Parking", "AddParking", new { id = Model.ResortId, name = "Resort" })
+            @Html.ActionLink("Add Parking", "AddParking", new { id = Model.ResortId, name = "Resort" }, new { @class = "btn btn-primary" })
             }
 
 
         </div>
-        <div class="col-lg-5 ">
+      
+
+
+       
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-6 ">
             @if (Model.HolidayHomes != null)
             {
-            <h2>Holiday Home</h2>
+                <h2>Holiday Home</h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -91,6 +105,7 @@
                             <th>Number of Guests</th>
                             <th>Number of Beds</th>
                             <th>Floors</th>
+                            <th>Add Picture</th>
                             <th>Delete HolidayHome</th>
                         </tr>
                     </thead>
@@ -102,13 +117,13 @@
                                 <td>@item.numberofGuests</td>
                                 <td>@item.numberofBeds</td>
                                 <td>@item.numberofFloors</td>
-                                <td>Floors</td>
-                                <td>@Html.ActionLink("Delete", "DeleteHolidayHome", new { id = item.HolidayHomeId, resortId = Model.ResortId }) </td>
+                                <td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = item.HolidayHomeId, type = 3 }, new { @class = "btn btn-success" })</td>
+                                <td>@Html.ActionLink("Delete", "DeleteHolidayHome", new { id = item.HolidayHomeId, resortId = Model.ResortId }, new { @class = "btn btn-danger" }) </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                @Html.ActionLink("Add HolidayHome", "AddHolidayHome", new { id = Model.ResortId, name = "Resort" })
+                @Html.ActionLink("Add HolidayHome", "AddHolidayHome", new { id = Model.ResortId, name = "Resort" },new {@class="btn btn-primary" })
 
 
 
@@ -118,16 +133,7 @@
 
 
         </div>
-
-
-       
-
-
-    </div>
-
-
-    <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-6">
             <h2>Edit Resort</h2>
             @using (Html.BeginForm("EditResort", "Owner"))
             {
@@ -154,9 +160,10 @@
                     @Html.Hidden("ResortId")
                     <div>
                         <br />
-                        <input type="submit" value="Change" />
+                        <input type="submit" value="Change" class="btn btn-warning" />
                     </div>
-                    <div>@Html.ActionLink("Remove Resort","RemoveResort",new { id = Model.ResortId })</div>
+                    <div><td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = Model.ResortId, type = 1 }, new { @class = "btn btn-success" })</td></div>
+                    <div>@Html.ActionLink("Remove Resort","RemoveResort",new { id = Model.ResortId }, new { @class = "btn btn-danger" })</div>
 
             }
         </div>

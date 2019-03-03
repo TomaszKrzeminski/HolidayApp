@@ -53,6 +53,8 @@ namespace HolidayApp.Concrete
 
         }
 
+
+
         public bool AddParkingToHotel(Parking parking, int id)
         {
 
@@ -86,6 +88,205 @@ namespace HolidayApp.Concrete
             catch
             {
                 return false;
+            }
+        }
+
+        public string AddPictureHolidayHome(int Id, string Path)
+        {
+           
+
+          
+                HolidayHome home = context.HolidayHomes.Find(Id);
+                int count = home.Images.Count();
+                if (count > 5)
+                {
+                return "";
+                }
+
+                
+
+
+            try
+            {
+                HolidayHome entity = context.HolidayHomes.Find(Id);
+                Image image = new Image();
+
+                string ResortId=  entity.Resort.ResortId.ToString();
+
+                string text = "\\Resort" + ResortId + "HolidayHome"+entity.HolidayHomeId+"Picturenr" + (count + 1).ToString()+".jpg";
+
+                image.ImagePath = Path + text ;
+
+
+                entity.Images.Add(image);
+                context.SaveChanges();
+                return text;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+
+       
+
+
+
+
+
+
+        public string AddPictureHotel(int Id, string Path)
+        {
+
+
+
+            int count = 0;
+           
+
+            Hotel hotel = context.Hotels.Find(Id);
+            count = hotel.Images.Count();
+            if (count > 5)
+            {
+                return "";
+            }
+
+
+
+
+            try
+            {
+                Hotel entity = context.Hotels.Find(Id);
+                Image image = new Image();
+
+               
+
+                string text = "\\Hotel" + entity.HotelId + "Picturenr" + (count + 1).ToString() + ".jpg";
+
+                image.ImagePath = Path + text;
+                entity.Images.Add(image);
+                context.SaveChanges();
+                return text;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        public string AddPictureParking(int Id, string Path)
+        {
+            int count = 0;
+            string text="";
+            Parking data = context.Parkings.Find(Id);
+            count = data.Images.Count();
+            if (count > 5)
+            {
+                return "";
+            }
+
+           
+
+            try
+            {
+                Parking entity = context.Parkings.Find(Id);
+                Image image = new Image();
+
+                if(entity.Hotel==null)
+                {
+                    text = "\\Resort" + entity.Resort.ResortId;
+                }
+                else
+                {
+                    text = "\\Hotel" + entity.Hotel.HotelId;
+                }
+
+                text += "Parking" + entity.ParkingId + "Picturenr" + (count + 1).ToString() + ".jpg";
+
+                image.ImagePath = Path + text;
+                entity.Images.Add(image);
+                context.SaveChanges();
+                return text;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        public string AddPictureResort(int Id, string Path)
+        {
+
+            int count = 0;
+
+            Resort data = context.Resorts.Find(Id);
+            count = data.Images.Count();
+            if (count > 5)
+            {
+                return "";
+            }
+
+            try
+            {
+                Resort entity = context.Resorts.Find(Id);
+                Image image = new Image();
+
+                string text = "\\Hotel" + entity.ResortId + "Picturenr" + (count + 1).ToString() + ".jpg";
+
+                image.ImagePath = Path + text;
+                entity.Images.Add(image);
+                context.SaveChanges();
+                return text;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        public string AddPictureRoom(int Id, string Path)
+        {
+            int count = 0;
+            string text = "";
+
+            Room data = context.Rooms.Find(Id);
+            count = data.Images.Count();
+            if (count > 5)
+            {
+                return "";
+            }
+
+
+
+
+
+            try
+            {
+                Room entity = context.Rooms.Find(Id);
+                Image image = new Image();
+
+
+                if (entity.Hotel == null)
+                {
+                    text = "\\Resort" + entity.Resort.ResortId;
+                }
+                else
+                {
+                    text = "\\Hotel" + entity.Hotel.HotelId;
+                }
+
+                text += "Room" + entity.RoomId + "Picturenr" + (count + 1).ToString() + ".jpg";
+
+
+
+                image.ImagePath = Path + "number" + (count + 1).ToString();
+                entity.Images.Add(image);
+                context.SaveChanges();
+                return text;
+            }
+            catch
+            {
+                return "";
             }
         }
 
@@ -457,6 +658,17 @@ namespace HolidayApp.Concrete
             try
             {
                 HolidayHome holidayHome = context.HolidayHomes.Find(id);
+                if(holidayHome.Images.Count>0)
+                {
+                    List<Image> images = holidayHome.Images.ToList();
+                    
+                    foreach (var item in images)
+                    {
+                        holidayHome.Images.Remove(item);
+                    }
+                    context.SaveChanges();
+
+                }
                 context.HolidayHomes.Remove(holidayHome);
                 context.SaveChanges();
                 return true;
@@ -478,11 +690,35 @@ namespace HolidayApp.Concrete
 
                 List<Parking> parkingList = hotel.Parkings.ToList();
                 List<Room> roomList = hotel.Rooms.ToList();
-              
-                if(parkingList.Count>0)
+
+
+                if (hotel.Images.Count > 0)
                 {
+                    List<Image> images = hotel.Images.ToList();
+
+                    foreach (var item in images)
+                    {
+                        hotel.Images.Remove(item);
+                    }
+                    context.SaveChanges();
+
+                }
+
+
+
+
+                if (parkingList.Count > 0)
+                {
+
+                    
+
                     foreach (var item in parkingList)
                     {
+
+                      
+
+
+
                         context.Parkings.Remove(item);
                         context.SaveChanges();
                     }
@@ -490,15 +726,15 @@ namespace HolidayApp.Concrete
                 }
 
 
-                if(roomList.Count>0)
+                if (roomList.Count > 0)
                 {
 
                     foreach (var item in roomList)
                     {
-                      context.Rooms.Remove(item);
+                        context.Rooms.Remove(item);
                         context.SaveChanges();
                     }
-                   
+
 
 
                 }
@@ -515,7 +751,7 @@ namespace HolidayApp.Concrete
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -533,6 +769,18 @@ namespace HolidayApp.Concrete
             try
             {
                 Parking parking = context.Parkings.Find(id);
+                if (parking.Images.Count > 0)
+                {
+                    List<Image> images = parking.Images.ToList();
+
+                    foreach (var item in images)
+                    {
+                        parking.Images.Remove(item);
+                    }
+                    context.SaveChanges();
+
+                }
+
                 context.Parkings.Remove(parking);
                 context.SaveChanges();
                 return true;
@@ -561,6 +809,21 @@ namespace HolidayApp.Concrete
                 List<Room> roomList = resort.Rooms.ToList();
                 List<HolidayHome> holidayHomeList = resort.HolidayHomes.ToList();
 
+
+
+                if (resort.Images.Count > 0)
+                {
+                    List<Image> images = resort.Images.ToList();
+
+                    foreach (var item in images)
+                    {
+                        resort.Images.Remove(item);
+                    }
+                    context.SaveChanges();
+
+                }
+
+
                 if (parkingList.Count > 0)
                 {
                     foreach (var item in parkingList)
@@ -586,7 +849,7 @@ namespace HolidayApp.Concrete
                 }
 
 
-                if(holidayHomeList.Count>0)
+                if (holidayHomeList.Count > 0)
                 {
 
                     foreach (var item in holidayHomeList)
@@ -633,6 +896,24 @@ namespace HolidayApp.Concrete
             try
             {
                 Room room = context.Rooms.Find(id);
+
+                if (room.Images.Count > 0)
+                {
+                    List<Image> images = room.Images.ToList();
+
+                    foreach (var item in images)
+                    {
+                        room.Images.Remove(item);
+                    }
+                    context.SaveChanges();
+
+                }
+
+
+
+
+
+
                 context.Rooms.Remove(room);
                 context.SaveChanges();
                 return true;

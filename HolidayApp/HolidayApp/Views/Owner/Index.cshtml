@@ -8,21 +8,70 @@
     <div class="row">
 
         <div class="col-lg-4">
-            <h2>List of Hotels</h2>
-            @foreach (var item in Model.HotelList)
+            <h1> Hotels</h1>
+
+            <table class="table table-responsive">
+                <tbody>
+                    @foreach (var item in Model.HotelList)
             {
                 if (item != null)
                 {
-                    <div>@item.Name  @item.City   @Html.ActionLink("Edit Hotel", "EditHotel", new { Id = item.HotelId })    </div>
-                }
+                            <tr>
+                                <td class="active">
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.City
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit Hotel", "EditHotel", new { Id = item.HotelId }, new { @class = "btn btn-warning" })
+                                </td>
+                            </tr>
 
-            }
+                        }
 
-            @Html.ActionLink("Add Hotel", "AddHotel")
+                    }
+
+                </tbody>
+            </table>
+
+
+            @*@foreach (var item in Model.HotelList)
+                {
+                    if (item != null)
+                    {
+                        <div>@item.Name  @item.City   @Html.ActionLink("Edit Hotel", "EditHotel", new { Id = item.HotelId })    </div>
+                    }
+
+                }*@
+
+            @Html.ActionLink("Add Hotel", "AddHotel", null, new { @class = "btn btn-primary" })
         </div>
         <div class="col-lg-4">
-            <h2>List of Resorts</h2>
-            @foreach (var item in Model.ResortList)
+            <h1>Resorts</h1>
+            <table class="table table-responsive">
+                <tbody>
+                    @foreach (var item in Model.ResortList)
+            {
+
+                if (item != null)
+                {
+                            <tr>
+                                <td class="active">@item.Name</td>
+                                <td>@item.City</td>
+                                <td>@Html.ActionLink("Edit Resort", "EditResort", new { Id = item.ResortId },new {@class="btn btn-warning" })</td>
+                            </tr>
+                            
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+
+
+
+            @*@foreach (var item in Model.ResortList)
             {
 
                 if (item != null)
@@ -31,45 +80,62 @@
                 }
 
 
-            }
+            }*@
 
-            @Html.ActionLink("Add Resort", "AddResort")
+            @Html.ActionLink("Add Resort", "AddResort", null, new { @class = "btn btn-primary" })
 
 
         </div>
         <div class="col-lg-4">
-            <h2>List of Rooms</h2>
-         
-            @foreach (var item in Model.RoomList)
-            {
+            <h1> Rooms</h1>
 
-                if (item.Hotel != null)
-                {
-                    <div>
-                        <p>@item.Hotel.Name  </p>   <p> @item.Hotel.City</p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="active">Hotel Name</th>
+                        <th>City </th>
+                        <th>Number of Guests</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @foreach (var item in Model.RoomList)
+                    {
 
-                        <p>@item.numberofGuests</p>
-
-                    </div>
-                }
-                else if (item.Resort != null)
-                {
-                    <div>
-                        <p>   @item.Resort.Name</p>   <p>@item.Resort.City </p>
-
-                        <p>@item.numberofGuests</p>
-
-                    </div>
-                }
+                        if (item.Hotel != null)
+                        {
 
 
-            }
-
+                     <tr>
+                         <td class="active">@item.Hotel.Name </td>
+                         <td>@item.Hotel.City </td>
+                         <td>@item.numberofGuests </td>
+                     </tr>
                        
 
 
-      </div>
+
+                        }
+                        else if (item.Resort != null)
+                        {
+
+                            <tr>
+                                <td>@item.Resort.Name </td>
+                                <td>@item.Resort.City </td>
+                                <td>@item.numberofGuests </td>
+                            </tr>
+                           
+                           
+                        }
+
+
+                    }
+
+                    </tbody>
+                </table>
+
+
+        </div>
 
     </div>
 </div>
-

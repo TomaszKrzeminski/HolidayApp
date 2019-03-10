@@ -1,0 +1,23 @@
+﻿@using HolidayApp.Entities
+@using HolidayApp.Models
+@model List<EditImageModel>
+@{
+    ViewBag.Title = "ShowPictures";
+}
+
+<h2>ShowPictures</h2>
+
+<div class="container">
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3">
+                <img  src="@Url.Content(item.imagePath)" class="img-responsive" />
+                @Html.ActionLink("Edit Image", "EditPicture",new{ PictureId = item.Id,TypeId=item.TypeId,objectType=item.type.ToString() })
+            </div>
+        }
+
+       
+    </div>
+</div>

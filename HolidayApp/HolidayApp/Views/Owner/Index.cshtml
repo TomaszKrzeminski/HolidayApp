@@ -1,7 +1,7 @@
 ﻿@using HolidayApp.Models
 @model HolidayViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Index Owner";
 }
 
 <div class="container">
@@ -18,7 +18,7 @@
                 {
                             <tr>
                                 <td class="active">
-                                    @item.Name
+                                   <p>@Html.ActionLink(item.Name , "ShowDetailsHotel","Home", new { Id = item.HotelId },null)</p>
                                 </td>
                                 <td>
                                     @item.City
@@ -57,7 +57,7 @@
                 if (item != null)
                 {
                             <tr>
-                                <td class="active">@item.Name</td>
+                                <td class="active"><p>@Html.ActionLink(item.Name, "ShowDetailsResort", "Home", new { Id = item.ResortId }, null)</p></td>
                                 <td>@item.City</td>
                                 <td>@Html.ActionLink("Edit Resort", "EditResort", new { Id = item.ResortId },new {@class="btn btn-warning" })</td>
                             </tr>
@@ -107,7 +107,8 @@
 
 
                      <tr>
-                         <td class="active">@item.Hotel.Name </td>
+                         <td class="active"><p>@Html.ActionLink(item.Hotel.Name, "ShowDetailsRoom", "Home", new { Id = item.RoomId }, null)</p></td>
+                     
                          <td>@item.Hotel.City </td>
                          <td>@item.numberofGuests </td>
                      </tr>
@@ -120,6 +121,7 @@
                         {
 
                             <tr>
+                                <td class="active"><p>@Html.ActionLink(item.Resort.Name, "ShowDetailsRoom", "Home", new { Id = item.RoomId }, null)</p></td>
                                 <td>@item.Resort.Name </td>
                                 <td>@item.Resort.City </td>
                                 <td>@item.numberofGuests </td>

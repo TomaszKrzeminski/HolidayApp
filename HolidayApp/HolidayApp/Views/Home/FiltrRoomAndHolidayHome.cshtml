@@ -1,0 +1,130 @@
+﻿@using HolidayApp.Models
+@model SearchModelView
+@{
+    ViewBag.Title = "FiltrRoomAndHolidayHome";
+}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-4" style="background-color:#F8FD8E">
+            @using (Html.BeginForm("FiltrRoomAndHolidayHome", "Home"))
+            {
+                <div class="form-group">
+                    @Html.Label("Country")
+                    @Html.TextBox("country", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("City")
+                    @Html.TextBox("city", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.DropDownList("choose", EnumHelper.GetSelectList(typeof(Choose)), new { @class = "form-control" })
+
+                </div>
+                <div class="form-group">
+                    @Html.Label("Number of Guests")
+                    @Html.TextBox("guestnumber", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Number of Beds")
+                    @Html.TextBox("bednumber", null, new { @class = "form-control" })
+                </div>
+
+                <div>
+                    <input type="submit" value="Search" class="form-control" />
+                </div>
+            }
+        </div>
+
+        <div class="col-lg-8">
+            @*@foreach (var item in Model.holidayhomes)
+                {
+                    <div>@item.HolidayHomeId    @item.numberofGuests     @item.numberofBeds</div>
+                }*@
+
+
+
+
+
+
+
+
+
+
+
+            @foreach (var item in Model.holidayhomes)
+            {
+
+                <div class="row" style="background-color:#A0FCD2">
+                    <div class="col-lg-4">
+                        @if (item.Images != null && item.Images.Count > 0)
+                        {
+                            <img src="@Url.Content(item.Images.FirstOrDefault().ImagePath)" />
+                        }
+
+                    </div>
+
+                    <div class="col-lg-8">
+
+                        <h3>Number of guests  @item.numberofGuests    Number of beds @item.numberofBeds</h3>
+
+                        <p>
+                            Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
+                        </p>
+
+                        @Html.ActionLink("Show", "ShowDetailsHolidayHome", "Home", new {Id=item.HolidayHomeId }, new {@class="btn btn-success" })
+
+                    </div>
+                </div>
+
+
+            }
+
+
+
+            @foreach (var item in Model.rooms)
+            {
+
+                <div class="row" style="background-color:#B5DDFF ">
+                    <div class="col-lg-4">
+                        @if (item.Images != null && item.Images.Count > 0)
+                        {
+                            <img src="@Url.Content(item.Images.FirstOrDefault().ImagePath)" class="img-responsive" />
+                        }
+
+                    </div>
+
+                    <div class="col-lg-8">
+
+                        <h3>Number of guests  @item.numberofGuests    Number of beds @item.numberofBeds</h3>
+
+                        <p>
+                            Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
+                        </p>
+
+                        @Html.ActionLink("Show", "ShowDetailsRoom", "Home", new { Id = item.RoomId }, new { @class = "btn btn-success" })
+
+                    </div>
+                </div>
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+</div>

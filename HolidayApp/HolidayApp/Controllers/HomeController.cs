@@ -22,6 +22,25 @@ namespace HolidayApp.Controllers
         }
 
 
+        public ActionResult FiltrRoomAndHolidayHome(string country,string city,Choose choose,int guestnumber,int bednumber)
+        {
+            FiltrFactory factory = new FiltrFactory(repository);
+            FiltrRoomHolidayHome filtrclass = factory.CreateObject(choose);
+            filtrclass.Country = country;
+            filtrclass.City = city;
+            filtrclass.choose = choose;
+            filtrclass.GuestNumber = guestnumber;
+            filtrclass.BedNumber = bednumber;
+
+            filtrclass.Filtr();
+
+
+            SearchModelView viewmodel = new SearchModelView();
+            viewmodel.holidayhomes = filtrclass.HolidayHomes;
+            viewmodel.rooms = filtrclass.Rooms;
+
+            return View(viewmodel);
+        }
 
 
 
@@ -36,6 +55,22 @@ namespace HolidayApp.Controllers
 
 
             return View(model);
+        }
+
+        public ActionResult ShowDetailsHolidayHome(int Id)
+        {
+            HolidayHome home = repository.GetHolidayHomeById(Id);
+
+
+            return View(home);
+        }
+
+        public ActionResult ShowDetailsParking(int Id)
+        {
+            Parking parking = repository.GetParkingById(Id);
+
+
+            return View(parking);
         }
 
         public ActionResult ShowDetailsRoom(int Id)

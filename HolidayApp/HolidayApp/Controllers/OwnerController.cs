@@ -8,7 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using HolidayApp.Entities;
-
+using System.Drawing;
+using System.IO;
 namespace HolidayApp.Controllers
 {
     [Authorize]
@@ -34,6 +35,101 @@ namespace HolidayApp.Controllers
 
         }
 
+
+        public ActionResult ShowPictures(int TypeId, string objectType)
+        {
+            ObjectFactory factory = new ObjectFactory(repository);
+            IAddImage editImage = factory.CreateObject(objectType);
+
+            List<HolidayApp.Entities.Image> images = editImage.GetImages(TypeId);
+
+            List<EditImageModel> list = new List<EditImageModel>();
+
+            AddPictureType addpicture =(AddPictureType) Enum.Parse(typeof(AddPictureType), objectType);
+                
+
+            if (images != null)
+            {
+                foreach (var item in images)
+                {
+   
+                    list.Add(new EditImageModel() {Id=item.ImageId,TypeId=TypeId,type=addpicture,imagePath=item.ImagePath });
+
+                }
+            }
+
+
+            return View(list);
+
+
+        }
+
+
+
+
+        public ActionResult EditPicture(int PictureId, int TypeId, string objectType)
+        {
+
+            ObjectFactory factory = new ObjectFactory(repository);
+            IAddImage editImage = factory.CreateObject(objectType);
+            HolidayApp.Entities.Image image = editImage.GetImageFromDb(PictureId, TypeId);
+
+
+
+            return View(image);
+        }
+
+        [HttpPost]
+        public ActionResult EditPicture(string ImagePath, Angle angle)
+        {
+            System.Drawing.Image image2;
+            // Load the image from the original path
+            string text = "C:\\HolidayApp\\HolidayApp\\HolidayApp\\Images\\";
+            string filename = Path.GetFileName(ImagePath);
+            using (System.Drawing.Image image = System.Drawing.Image.FromFile(text + filename))
+            {
+
+
+                if(angle==Angle.rotate0)
+                {
+                    return RedirectToAction("Index");
+                }
+                else if (angle == Angle.rotate90)
+                {
+
+                    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                }
+                else if (angle == Angle.rotate180)
+                {
+
+                    image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+
+                }
+
+                image2 = image;
+                try
+                {
+                 System.IO.File.Delete(text + filename);
+
+
+                // Save the image to the new_path
+                image2.Save(text + filename, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
+                catch
+                {
+
+                }
+              
+            }
+
+
+
+            return RedirectToAction("Index");
+        }
+
+
+
+
         [HttpPost]
         public ActionResult FileUpload(AddImagesModel model)
         {
@@ -42,33 +138,73 @@ namespace HolidayApp.Controllers
             if (model.file != null)
             {
                 string path = System.IO.Path.Combine(
-                                     Server.MapPath("~/Images"),"");
+                                     Server.MapPath("~/Images"), "");
                 ObjectFactory factory = new ObjectFactory(repository);
                 IAddImage addImage = factory.CreateObject(model.type.ToString());
-             text=addImage.AddPathToEntity(model.Id, path);
+                text = addImage.AddPathToEntity(model.Id, path);
 
-                if(text=="")
+                if (text == "")
                 {
                     return View("AddImagesToMany");
                 }
 
 
-                model.file.SaveAs(path+text);
+                model.file.SaveAs(path + text);
 
 
 
             }
 
-            if(text.Contains("Hotel"))
+            if (text.Contains("Hotel"))
             {
-                return RedirectToAction("EditHotel",new {id=text[6] });
+                return RedirectToAction("EditHotel", new { id = text[6] });
             }
             else
             {
                 return RedirectToAction("EditResort", new { id = text[7] });
             }
-          
+
         }
+
+
+
+
+
+        //[HttpPost]
+        //public ActionResult FileUpload(AddImagesModel model)
+        //{
+        //    string text = "";
+
+        //    if (model.file != null)
+        //    {
+        //        string path = System.IO.Path.Combine(
+        //                             Server.MapPath("~/Images"), "");
+        //        ObjectFactory factory = new ObjectFactory(repository);
+        //        IAddImage addImage = factory.CreateObject(model.type.ToString());
+        //        text = addImage.AddPathToEntity(model.Id, path);
+
+        //        if (text == "")
+        //        {
+        //            return View("AddImagesToMany");
+        //        }
+
+
+        //        model.file.SaveAs(path + text);
+
+
+
+        //    }
+
+        //    if (text.Contains("Hotel"))
+        //    {
+        //        return RedirectToAction("EditHotel", new { id = text[6] });
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("EditResort", new { id = text[7] });
+        //    }
+
+        //}
 
         // GET: Owner
         public ActionResult Index()

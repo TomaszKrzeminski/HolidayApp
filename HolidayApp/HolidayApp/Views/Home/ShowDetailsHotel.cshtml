@@ -4,25 +4,44 @@
     ViewBag.Title = "ShowDetailsHotel";
 }
 
-<h2>ShowDetailsHotel</h2>
+
+
+<h2>@Model.Name</h2>
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-12" id="PictureBig">
+   
+         
 
+        <div class="row">
+            @foreach (var item in Model.Images)
+            {
+                
+                    
+
+
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <a href="@item.Hotel.Name">
+                            <img src="@Url.Content(@item.ImagePath)"  class="img-responsive">
+                         
+
+
+                        </a>
+                    </div>
+                </div>
+
+
+
+
+
+            }
         </div>
+    
 
-
-    </div>
+   
+    
     <div class="row">
-        <div class="col-lg-12" id="PicturesSmall">
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-8" id="Description">
-
-        </div>
+       
         <div class="col-lg-4" id="Stats">
             <table class="table-responsive">
 

@@ -216,3 +216,5 @@ C:\HolidayApp\HolidayApp\HolidayApp\bin\Microsoft.AI.Web.xml
 C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.dll
 C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.pdb
 C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.csprojResolveAssemblyReference.cache
+C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.Migrations.DateTime.resources
+C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.csproj.GenerateResource.Cache

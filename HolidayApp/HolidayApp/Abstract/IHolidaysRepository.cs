@@ -12,8 +12,8 @@ namespace HolidayApp.Abstract
 
         HolidayViewModel GetRandomPlaces();
         HolidayViewModel GetModelByUser(string UserId);
-        bool AddResort(Resort resort,string UserId);
-        bool AddHotel(Hotel hotel,string UserId);
+        bool AddResort(Resort resort, string UserId);
+        bool AddHotel(Hotel hotel, string UserId);
         Hotel GetHotelByID(int id);
         bool ChangeHotel(Hotel hotel);
         Resort GetResortByID(int id);
@@ -31,15 +31,27 @@ namespace HolidayApp.Abstract
         bool AddHolidayHomeToResort(HolidayHome holidayhome, int id);
         bool RemoveHotel(int id);
         bool RemoveResort(int id);
+
         string AddPictureResort(int Id, string Path);
         string AddPictureHotel(int Id, string Path);
         string AddPictureRoom(int Id, string Path);
         string AddPictureParking(int Id, string Path);
         string AddPictureHolidayHome(int Id, string Path);
 
+        Image GetImageByIdHotel(int Id, int TypeId);
+        Image GetImageByIdResort(int Id, int TypeId);
+        Image GetImageByIdRoom(int Id, int TypeId);
+        Image GetImageByIdParking(int Id, int TypeId);
+        Image GetImageByIdHolidayHome(int Id, int TypeId);
 
+        List<Image> GetAllImagesHotel(int Id);
+        List<Image> GetAllImagesResort(int Id);
+        List<Image> GetAllImagesRoom(int Id);
+        List<Image> GetAllImagesParking(int Id);
+        List<Image> GetAllImagesHolidayHome(int Id);
 
-
+        List<HolidayHome> GetListHHByCountryAndCity(string Country,string City);
+        List<Room> GetListRByCountryAndCity(string Country,string City);
 
         //bool AddRoom(Resort resort, Room room);
         //bool AddRoom(Hotel hotel, Room room);

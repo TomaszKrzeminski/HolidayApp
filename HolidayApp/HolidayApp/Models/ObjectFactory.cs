@@ -7,6 +7,49 @@ using System.Web;
 
 namespace HolidayApp.Models
 {
+
+    public class FiltrFactory
+    {
+        IHolidaysRepository repository;
+        public FiltrFactory(IHolidaysRepository repo)
+        {
+            repository = repo;
+        }
+
+        public FiltrRoomHolidayHome CreateObject(Choose choose)
+        {
+            switch (choose.ToString())
+            {
+                case "Room":
+                    return new FiltrClassRoom(repository);
+                   
+
+                case "HolidayHome":
+                    return new FiltrClassHolidayHome(repository);
+                  
+            
+
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     public class ObjectFactory
     {
         IHolidaysRepository repository;
@@ -21,20 +64,20 @@ namespace HolidayApp.Models
                 {
                     case "Hoteltype":
                         return new Hotel(repository);
-                        break;
+                       
 
                     case "Resorttype":
                         return new Resort(repository);
-                        break;
+                       
                 case "Roomtype":
                     return new Room(repository);
-                    break;
+                    
                 case "HolidayHometype":
                     return new HolidayHome(repository);
-                    break;
+                   
                 case "Parkingtype":
                     return new Parking(repository);
-                    break;
+                    
 
                 default:
                         throw new ArgumentException();

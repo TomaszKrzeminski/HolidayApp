@@ -115,7 +115,7 @@ namespace HolidayApp.Concrete
 
                 string text = "\\Resort" + ResortId + "HolidayHome"+entity.HolidayHomeId+"Picturenr" + (count + 1).ToString()+".jpg";
 
-                image.ImagePath = Path + text ;
+                image.ImagePath = "~\\Images" + text ;
 
 
                 entity.Images.Add(image);
@@ -163,7 +163,7 @@ namespace HolidayApp.Concrete
 
                 string text = "\\Hotel" + entity.HotelId + "Picturenr" + (count + 1).ToString() + ".jpg";
 
-                image.ImagePath = Path + text;
+                image.ImagePath = "~\\Images" + text;
                 entity.Images.Add(image);
                 context.SaveChanges();
                 return text;
@@ -203,7 +203,7 @@ namespace HolidayApp.Concrete
 
                 text += "Parking" + entity.ParkingId + "Picturenr" + (count + 1).ToString() + ".jpg";
 
-                image.ImagePath = Path + text;
+                image.ImagePath = "~\\Images" + text;
                 entity.Images.Add(image);
                 context.SaveChanges();
                 return text;
@@ -231,9 +231,9 @@ namespace HolidayApp.Concrete
                 Resort entity = context.Resorts.Find(Id);
                 Image image = new Image();
 
-                string text = "\\Hotel" + entity.ResortId + "Picturenr" + (count + 1).ToString() + ".jpg";
+                string text = "\\Resort" + entity.ResortId + "Picturenr" + (count + 1).ToString() + ".jpg";
 
-                image.ImagePath = Path + text;
+                image.ImagePath = "~\\Images" + text;
                 entity.Images.Add(image);
                 context.SaveChanges();
                 return text;
@@ -279,7 +279,7 @@ namespace HolidayApp.Concrete
 
 
 
-                image.ImagePath = Path + "number" + (count + 1).ToString();
+                image.ImagePath = "~\\Images" + text;
                 entity.Images.Add(image);
                 context.SaveChanges();
                 return text;
@@ -383,11 +383,83 @@ namespace HolidayApp.Concrete
 
         }
 
+       
+
+        public List<Image> GetAllImagesHolidayHome(int Id)
+        {
+            List<Image> images = new List<Image>();
+            try
+            {
+                images = context.HolidayHomes.Find(Id).Images.ToList();
+                return images;
+            }
+            catch
+            {
+                return images;
+            }
+        }
+
+        public List<Image> GetAllImagesHotel(int Id)
+        {
+            List<Image> images = new List<Image>();
+            try
+            {
+                images = context.Hotels.Find(Id).Images.ToList();
+                return images;
+            }
+            catch
+            {
+                return images;
+            }
+        }
+
+        public List<Image> GetAllImagesParking(int Id)
+        {
+            List<Image> images = new List<Image>();
+            try
+            {
+                images = context.Parkings.Find(Id).Images.ToList();
+                return images;
+            }
+            catch
+            {
+                return images;
+            }
+        }
+
+        public List<Image> GetAllImagesResort(int Id)
+        {
+            List<Image> images = new List<Image>();
+            try
+            {
+                images = context.Resorts.Find(Id).Images.ToList();
+                return images;
+            }
+            catch
+            {
+                return images;
+            }
+        }
+
+        public List<Image> GetAllImagesRoom(int Id)
+        {
+            List<Image> images = new List<Image>();
+            try
+            {
+                images = context.Rooms.Find(Id).Images.ToList();
+                return images;
+            }
+            catch
+            {
+                return images;
+            }
+        }
+
         public HolidayHome GetHolidayHomeById(int id)
         {
             try
             {
-                HolidayHome holidayHome = context.HolidayHomes.Include("Resorts").Where(x => x.HolidayHomeId == id).First();
+                HolidayHome holidayHome = context.HolidayHomes.Find(id);
                 return holidayHome;
 
             }
@@ -411,6 +483,121 @@ namespace HolidayApp.Concrete
             {
                 return hotel;
             }
+
+
+        }
+
+        public Image GetImageByIdHolidayHome(int Id, int TypeId)
+        {
+            try
+            {
+                Image image = context.HolidayHomes.Where(x => x.HolidayHomeId == TypeId).FirstOrDefault().Images.Where(x => x.ImageId == Id).FirstOrDefault();
+                return image;
+            }
+            catch (Exception ex)
+            {
+                return new Image();
+            }
+        }
+
+        public Image GetImageByIdHotel(int Id,int TypeId)
+        {
+            
+            try
+            {
+                Image image = context.Hotels.Where(x => x.HotelId == TypeId).FirstOrDefault().Images.Where(x => x.ImageId == Id).FirstOrDefault();
+                return image;
+            }
+            catch(Exception ex)
+            {
+              return  new Image();
+            }
+
+
+        }
+
+        public Image GetImageByIdParking(int Id, int TypeId)
+        {
+            try
+            {
+                Image image = context.Parkings.Where(x => x.ParkingId == TypeId).FirstOrDefault().Images.Where(x => x.ImageId == Id).FirstOrDefault();
+                return image;
+            }
+            catch (Exception ex)
+            {
+                return new Image();
+            }
+        }
+
+        public Image GetImageByIdResort(int Id, int TypeId)
+        {
+            try
+            {
+                Image image = context.Resorts.Where(x => x.ResortId == TypeId).FirstOrDefault().Images.Where(x => x.ImageId == Id).FirstOrDefault();
+                return image;
+            }
+            catch (Exception ex)
+            {
+                return new Image();
+            }
+        }
+
+        public Image GetImageByIdRoom(int Id, int TypeId)
+        {
+            try
+            {
+                Image image = context.Rooms.Where(x => x.RoomId == TypeId).FirstOrDefault().Images.Where(x => x.ImageId == Id).FirstOrDefault();
+                return image;
+            }
+            catch (Exception ex)
+            {
+                return new Image();
+            }
+        }
+
+        public List<HolidayHome> GetListHHByCountryAndCity(string Country,string City)
+        {
+            List<HolidayHome> list = new List<HolidayHome>();
+            try
+            {
+                List<Resort> listResort = context.Resorts.Where(x => x.Country == Country).ToList();
+                listResort= listResort.Where(x => x.City == City).ToList();
+                foreach (var item in listResort)
+                {
+                    list.AddRange(item.HolidayHomes);
+                }
+
+                return list;
+
+            }
+            catch
+            {
+                return list;
+            }
+        }
+
+        public List<Room> GetListRByCountryAndCity(string Country,string City)
+        {
+
+            List<Room> list = new List<Room>();
+            try
+            {
+                List<Hotel> listHotel = context.Hotels.Where(x => x.Country == Country).ToList();
+                listHotel = listHotel.Where(x => x.City == City).ToList();
+                foreach (var item in listHotel)
+                {
+                    list.AddRange(item.Rooms);
+                }
+
+                return list;
+
+            }
+            catch
+            {
+                return list;
+            }
+
+
 
 
         }
@@ -586,7 +773,14 @@ namespace HolidayApp.Concrete
 
                 try
                 {
-                    viewModel.HotelList.Add(context.Hotels.Find(HotelNumber[i]));
+                    Hotel hotel = context.Hotels.Find(HotelNumber[i]);
+
+                    if(hotel!=null)
+                    {
+                     viewModel.HotelList.Add(hotel);
+                    }
+                   
+                    
                 }
                 catch
                 {
@@ -596,7 +790,12 @@ namespace HolidayApp.Concrete
 
                 try
                 {
-                    viewModel.ResortList.Add(context.Resorts.Find(ResortNumber[i]));
+                    Resort resort =context.Resorts.Find(ResortNumber[i]);
+                    if(resort!=null)
+                    {
+viewModel.ResortList.Add(resort);
+                    }
+                    
                 }
                 catch
                 {
@@ -605,7 +804,12 @@ namespace HolidayApp.Concrete
 
                 try
                 {
-                    viewModel.RoomList.Add(context.Rooms.Find(RoomNumber[i]));
+                    Room room =context.Rooms.Find(RoomNumber[i]);
+                    if(room!=null)
+                    {
+viewModel.RoomList.Add(room);
+                    }
+                    
                 }
                 catch
                 {

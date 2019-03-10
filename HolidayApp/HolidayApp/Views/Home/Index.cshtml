@@ -10,122 +10,123 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-4" id="SortElements" style="background-color:greenyellow;">
-           Sort Form
+        <div class="col-lg-4" id="SortElements" style="background-color:#FECF92;">
+
+            @using (Html.BeginForm("FiltrRoomAndHolidayHome", "Home"))
+            {
+                <div class="form-group">
+                    @Html.Label("Country")
+                    @Html.TextBox("country", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("City")
+                    @Html.TextBox("city", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.DropDownList("choose", EnumHelper.GetSelectList(typeof(Choose)), new { @class = "form-control" })
+
+                </div>
+                <div class="form-group">
+                    @Html.Label("Number of Guests")
+                    @Html.TextBox("guestnumber", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Number of Beds")
+                    @Html.TextBox("bednumber", null, new { @class = "form-control" })
+                </div>
+
+                <div>
+                   <input type="submit" value="Search" class="form-control" />
+                </div>
+            }
+
+
+
+
         </div>
         <div class="col-lg-8" id="ShowElements" style="background-color:yellow;">
-            
-            <div>
+
+           
 
                 @foreach (var item in Model.HotelList)
                 {
-                    <div>
-                        @if (item != null)
+
+                  
+
+                        <div class="row" style="background-color:#A0FCD2">
+                            <div class="col-lg-4">
+                           
+                                @if (item.Images != null&&item.Images.Count>0)
+                                {
+                                    <img src="@Url.Content(item.Images.FirstOrDefault().ImagePath)" class="img-responsive" />
+                                }
+                              
+                           
+                            </div>
+
+                            <div class="col-lg-8">
+
+                                <h3>Hotel Name  @item.Name    Hotel City @item.City   Country @item.Country</h3>
+
+                                <p>
+                                    Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
+                                </p>
+
+
+
+                            </div>
+                        </div>
+
+
+
+                }
+
+
+                 
+            @foreach (var item in Model.ResortList)
+            {
+
+
+
+                <div class="row" style="background-color:#A0FCD2">
+                    <div class="col-lg-4">
+                        @if (item.Images != null && item.Images.Count > 0)
                         {
-                            
-                            <p>@Html.ActionLink(item.Name+"  "+item.City, "ShowDetailsHotel",new { Id = item.HotelId })</p>
+                            <img src="@Url.Content(item.Images.FirstOrDefault().ImagePath)" class="img-responsive" />
                         }
-
-
-                        @*<p>@item.Rooms.FirstOrDefault().numberofGuests</p>*@
+                       
 
                     </div>
-                }
+
+                    <div class="col-lg-8">
+
+                        <h3>Resort Name  @item.Name    Resort City @item.City   Country @item.Country</h3>
+
+                        <p>
+                            Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
+                        </p>
+
+
+
+                    </div>
+                </div>
+
+
+
+            }
+
+
+           
+
+
+
+
+         
+
+      
 
 
             </div>
-            
-            <div>
-                <br />
-                @foreach (var item in Model.ResortList)
-                {
-                    <div>
-                        @if (item != null)
-                        {
-                           
-                            <p>@Html.ActionLink(item.Name + "  " + item.City, "ShowDetailsResort", new { Id = item.ResortId })</p>
-                        }
-
-
-                        @*<p>@item.Rooms.FirstOrDefault().numberofGuests</p>*@
-
-                    </div>
-                }
-
-
-            </div>
-            <br />
-            <div>
-
-                @foreach (var item in Model.RoomList)
-                {
-                    if (item!=null&&item.numberofGuests > 0)
-                    {
-                        <div>
-                            @*<p>@item.Hotel.Name  </p>   <p> @item.Hotel.City</p>*@
-
-                           
-                            <p>@Html.ActionLink(item.numberofGuests + "  " + item.numberofBeds, "ShowDetailsRoom", new { Id = item.RoomId })</p>
-
-                        </div>
-
-                     
-                    }
-
-
-                }
-
-                    @*{
-
-                        try
-                        {
-                            showHotel = item.Hotel != null;
-                        }
-                        catch
-                        {
-                            showHotel = false;
-                        }
-
-                        try
-                        {
-                            showResort = item.Resort != null;
-                        }
-                        catch
-                        {
-                            showResort = false;
-                        }
-
-
-                    }
-
-
-                    if (showHotel)
-                    {
-                        <div>
-                            <p>@item.Hotel.Name  </p>   <p> @item.Hotel.City</p>  
-
-                            <p>@item.numberofGuests</p>
-
-                        </div>
-                    }
-                    else if(showResort)
-                    {
-                        <div>
-                            <p>   @item.Resort.Name</p>   <p>@item.Resort.City </p>
-
-                            <p>@item.numberofGuests</p>
-
-                        </div>
-                    }
-
-
-                }
-
-
-            </div>*@
-
-
-
         </div>
     </div>
-</div>
+

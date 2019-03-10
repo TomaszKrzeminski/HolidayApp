@@ -7,9 +7,37 @@ using System.Web;
 namespace HolidayApp.Entities
 {
 
+
+    public class ReserveObject
+    {
+        public int ReserveObjectId { get; set; }
+      
+        public DateTime bookingFrom { get; set; }
+        public  DateTime bookingToo { get; set; }
+        public int totalHours { get; set; }
+        public int totalDays { get; set; }
+
+        public virtual Room Room { get; set; }
+
+        public virtual HolidayHome HolidayHome { get; set; }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
     public interface IAddImage
     {
         string AddPathToEntity(int Id, string Path);
+        Image GetImageFromDb(int Id, int TypeId);
+        List<Image> GetImages(int Id);
     }
 
 
@@ -84,6 +112,16 @@ namespace HolidayApp.Entities
         {
            return repository.AddPictureResort(Id, Path);
         }
+
+        public Image GetImageFromDb(int Id, int TypeId)
+        {
+            return repository.GetImageByIdResort(Id, TypeId);
+        }
+
+        public List<Image> GetImages(int Id)
+        {
+            return repository.GetAllImagesResort(Id);
+        }
     }
 
 
@@ -118,6 +156,15 @@ namespace HolidayApp.Entities
         public string Country { get; set; }
         public int TelephoneNumber { get; set; }
 
+        public Image GetImageFromDb(int Id, int TypeId)
+        {
+            return repository.GetImageByIdHotel(Id, TypeId);
+        }
+
+        public List<Image> GetImages(int Id)
+        {
+            return repository.GetAllImagesHotel(Id);
+        }
 
         public  string ApplicationUserID { get; set; }
         public Models.ApplicationUser ApplicationUser { get; set; }
@@ -135,9 +182,11 @@ namespace HolidayApp.Entities
         {
             repository = repoparam;
             Images = new HashSet<Image>();
+            reserveTimes = new HashSet<ReserveObject>();
         }
         public Room()
         {
+            reserveTimes = new HashSet<ReserveObject>();
             Images = new HashSet<Image>();
         }
         public string AddPathToEntity(int Id, string Path)
@@ -163,13 +212,25 @@ namespace HolidayApp.Entities
 
         public int  numberofTelevisions{get;set;}
 
+        public List<Image> GetImages(int Id)
+        {
+            return repository.GetAllImagesRoom(Id);
+        }
 
+        public Image GetImageFromDb(int Id, int TypeId)
+        {
+            return repository.GetImageByIdRoom(Id, TypeId);
+        }
         public virtual ICollection<Image> Images { get; set; }
         //public int ResortId { get; set; }
         public virtual Resort Resort { get; set; }
 
         //public int HotelId { get; set; }
         public virtual Hotel Hotel { get; set; }
+
+
+        public virtual ICollection<ReserveObject> reserveTimes { get; set; }
+
 
     }
 
@@ -180,11 +241,13 @@ namespace HolidayApp.Entities
         IHolidaysRepository repository;
         public HolidayHome(IHolidaysRepository repoparam)
         {
+            reserveTimes = new HashSet<ReserveObject>();
             repository = repoparam;
             Images = new HashSet<Image>();
         }
         public HolidayHome()
         {
+            reserveTimes = new HashSet<ReserveObject>();
             Images = new HashSet<Image>();
         }
 
@@ -213,7 +276,10 @@ namespace HolidayApp.Entities
         public int numberofFloors { get; set; }
 
 
-
+        public Image GetImageFromDb(int Id, int TypeId)
+        {
+            return repository.GetImageByIdHolidayHome(Id, TypeId);
+        }
 
 
 
@@ -221,8 +287,12 @@ namespace HolidayApp.Entities
         //public int ResortId { get; set; }
         public virtual Resort Resort { get; set; }
 
-        
+        public List<Image> GetImages(int Id)
+        {
+            return repository.GetAllImagesHolidayHome(Id);
+        }
 
+        public virtual ICollection<ReserveObject> reserveTimes { get; set; }
     }
 
 
@@ -252,6 +322,10 @@ namespace HolidayApp.Entities
 
         public bool Guarded { get; set; }
 
+        public List<Image> GetImages(int Id)
+        {
+            return repository.GetAllImagesParking(Id);
+        }
 
         public virtual ICollection<Image> Images { get; set; }
         //public int ResortId { get; set; }
@@ -259,7 +333,10 @@ namespace HolidayApp.Entities
 
         //public int HotelId { get; set; }
         public virtual Hotel Hotel { get; set; }
-
+        public Image GetImageFromDb(int Id, int TypeId)
+        {
+          return  repository.GetImageByIdRoom(Id, TypeId);
+        }
 
     }
 

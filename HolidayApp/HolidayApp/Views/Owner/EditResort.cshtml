@@ -21,6 +21,7 @@
                             <th>Number of Guests</th>
                             <th>Number of Beds</th>
                             <th>Add Picture</th>
+                            <th>Show Pictures</th>
                             <th>Delete Room</th>
                         </tr>
                     </thead>
@@ -28,10 +29,11 @@
                         @foreach (var item in Model.Rooms)
                        {
                             <tr>
-                                <td>@item.RoomId</td>
+                                <td>@Html.ActionLink(item.RoomId.ToString(), "ShowDetailsRoom", "Home", new { Id = item.RoomId }, null)</td>
                                 <td>@item.numberofGuests</td>
                                 <td>@item.numberofBeds</td>
                                 <td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = item.RoomId, type = 2 }, new { @class = "btn btn-success" })</td>
+                                <td>@Html.ActionLink("Show Pictures", "ShowPictures", new { TypeId = item.RoomId, objectType = "Roomtype" }, new { @class = "btn btn-success" })</td>
                                 <td>@Html.ActionLink("Delete","DeleteRoom",new {id=item.RoomId, resortId = Model.ResortId,hotelId=0 },new {@class="btn btn-danger" }) </td>
                             </tr>
                         }
@@ -62,6 +64,7 @@
                         <th>Price per Day</th>
                         <th>Guarded</th>
                         <th>Add Picture</th>
+                        <th>Show Pictures</th>
                         <th>Remove Parking</th>
                     </tr>
                 </thead>
@@ -69,11 +72,12 @@
                     @foreach (var item in Model.Parkings)
                     {
                         <tr>
-                            <td>@item.ParkingId</td>
+                            <td>@Html.ActionLink(item.ParkingId.ToString(), "ShowDetailsParking", "Home", new { Id = item.ParkingId }, null)</td>
                             <td>@item.parkingPlaces</td>
                             <td>@item.pricePerDay</td>
                             <td>@item.Guarded</td>
                             <td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = item.ParkingId, type = 4 }, new { @class = "btn btn-success" })</td>
+                            <td>@Html.ActionLink("Show Pictures", "ShowPictures", new { TypeId = item.ParkingId, objectType = "Parkingtype" }, new { @class = "btn btn-success" })</td>
                             <td>@Html.ActionLink("Delete", "DeleteParking", new { id = item.ParkingId, resortId=Model.ResortId,hotelId=0 }, new { @class = "btn btn-danger" }) </td>
                         </tr>
                     }
@@ -94,7 +98,7 @@
 
 
     <div class="row">
-        <div class="col-lg-6 ">
+        <div class="col-lg-8 ">
             @if (Model.HolidayHomes != null)
             {
                 <h2>Holiday Home</h2>
@@ -106,6 +110,7 @@
                             <th>Number of Beds</th>
                             <th>Floors</th>
                             <th>Add Picture</th>
+                            <th>Show Pictures</th>
                             <th>Delete HolidayHome</th>
                         </tr>
                     </thead>
@@ -113,11 +118,12 @@
                         @foreach (var item in Model.HolidayHomes)
                         {
                             <tr>
-                                <td>@item.HolidayHomeId</td>
+                                <td>@Html.ActionLink(item.HolidayHomeId.ToString(), "ShowDetailsHolidayHome", "Home", new { Id = item.HolidayHomeId }, null)</td>
                                 <td>@item.numberofGuests</td>
                                 <td>@item.numberofBeds</td>
                                 <td>@item.numberofFloors</td>
                                 <td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = item.HolidayHomeId, type = 3 }, new { @class = "btn btn-success" })</td>
+                                <td>@Html.ActionLink("Show Pictures", "ShowPictures", new { TypeId = item.HolidayHomeId, objectType = "HolidayHometype" }, new { @class = "btn btn-success" })</td>
                                 <td>@Html.ActionLink("Delete", "DeleteHolidayHome", new { id = item.HolidayHomeId, resortId = Model.ResortId }, new { @class = "btn btn-danger" }) </td>
                             </tr>
                         }
@@ -133,7 +139,7 @@
 
 
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <h2>Edit Resort</h2>
             @using (Html.BeginForm("EditResort", "Owner"))
             {
@@ -162,7 +168,8 @@
                         <br />
                         <input type="submit" value="Change" class="btn btn-warning" />
                     </div>
-                    <div><td>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = Model.ResortId, type = 1 }, new { @class = "btn btn-success" })</td></div>
+                    <div>@Html.ActionLink("Add Pictures", "AddPictures", new { Id = Model.ResortId, type = 1 }, new { @class = "btn btn-success" })</div>
+                    <div>@Html.ActionLink("Show Pictures", "ShowPictures", new { TypeId = Model.ResortId, objectType = "Resorttype" }, new { @class = "btn btn-success" })</div>
                     <div>@Html.ActionLink("Remove Resort","RemoveResort",new { id = Model.ResortId }, new { @class = "btn btn-danger" })</div>
 
             }

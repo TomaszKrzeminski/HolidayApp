@@ -8,11 +8,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-12" id="PictureBig">
-
-        </div>
-     
        
+            @foreach (var item in Model.Images)
+            { <div class="col-lg-4">
+            <img src="@Url.Content(@item.ImagePath)" class="img-responsive">
+                  <br />
+        </div>
+      
+            }
+       
+
+
+
     </div>
     <div class="row">
         <div class="col-lg-12" id="PicturesSmall">

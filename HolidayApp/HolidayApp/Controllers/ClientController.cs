@@ -1,4 +1,5 @@
 ﻿using HolidayApp.Abstract;
+using HolidayApp.Entities;
 using HolidayApp.Models;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,12 @@ namespace HolidayApp.Controllers
 
 
 
+        public ActionResult ShowWhenBooked(int Id=0)
+        {
+            return PartialView();
+        }
+
+
         public ActionResult ReserveRoom()
         {
             return View();
@@ -31,7 +38,39 @@ namespace HolidayApp.Controllers
         [HttpPost]
         public ActionResult ReserveHolidayHome(ReverveHolidayHomeModel model)
         {
-            return View();
+
+           if(model.dateTo<=model.dateFrom)
+            {
+                ModelState.AddModelError("dateTo", "Date should be later than above");
+            }
+
+            if(model.dateFrom==null)
+            {
+                ModelState.AddModelError("dateFrom", "Pole nie moze być puste");
+            }
+
+
+            if(ModelState.IsValid)
+            {
+                //repository.BookHolidayHome(model.holidayhomeId, model.dateFrom, model.dateTo);
+
+                CheckBookingModel modelbook = repository.bookholidayhome(model.holidayhomeId, model.dateFrom, model.dateTo);
+                ViewBag.checkbookingmodel = modelbook;
+
+ return RedirectToAction("ShowDetailsHolidayHome","Home",new {Id=model.holidayhomeId });
+            }
+            else
+            {
+                HolidayHome home = repository.GetHolidayHomeById(model.holidayhomeId);
+                return View("~/Views/Home/ShowDetailsHolidayHome.cshtml", home);
+               
+
+
+            }
+
+
+
+           
         }
 
 

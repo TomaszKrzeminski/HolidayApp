@@ -52,6 +52,7 @@ namespace HolidayApp.Models
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<HolidayHome> HolidayHomes { get; set; }
         public virtual DbSet<Parking> Parkings { get; set; }
+        public virtual DbSet<ReserveObject> ReserveObjects { get; set; }
 
 
 

@@ -14,8 +14,8 @@ namespace HolidayApp.Entities
       
         public DateTime bookingFrom { get; set; }
         public  DateTime bookingToo { get; set; }
-        public int totalHours { get; set; }
-        public int totalDays { get; set; }
+      
+        public int totalNights { get; set; }
 
         public virtual Room Room { get; set; }
 

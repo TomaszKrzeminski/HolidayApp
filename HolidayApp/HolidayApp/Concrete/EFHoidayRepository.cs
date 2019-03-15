@@ -93,17 +93,17 @@ namespace HolidayApp.Concrete
 
         public string AddPictureHolidayHome(int Id, string Path)
         {
-           
 
-          
-                HolidayHome home = context.HolidayHomes.Find(Id);
-                int count = home.Images.Count();
-                if (count > 5)
-                {
+
+
+            HolidayHome home = context.HolidayHomes.Find(Id);
+            int count = home.Images.Count();
+            if (count > 5)
+            {
                 return "";
-                }
+            }
 
-                
+
 
 
             try
@@ -111,11 +111,11 @@ namespace HolidayApp.Concrete
                 HolidayHome entity = context.HolidayHomes.Find(Id);
                 Image image = new Image();
 
-                string ResortId=  entity.Resort.ResortId.ToString();
+                string ResortId = entity.Resort.ResortId.ToString();
 
-                string text = "\\Resort" + ResortId + "HolidayHome"+entity.HolidayHomeId+"Picturenr" + (count + 1).ToString()+".jpg";
+                string text = "\\Resort" + ResortId + "HolidayHome" + entity.HolidayHomeId + "Picturenr" + (count + 1).ToString() + ".jpg";
 
-                image.ImagePath = "~\\Images" + text ;
+                image.ImagePath = "~\\Images" + text;
 
 
                 entity.Images.Add(image);
@@ -129,7 +129,7 @@ namespace HolidayApp.Concrete
         }
 
 
-       
+
 
 
 
@@ -142,7 +142,7 @@ namespace HolidayApp.Concrete
 
 
             int count = 0;
-           
+
 
             Hotel hotel = context.Hotels.Find(Id);
             count = hotel.Images.Count();
@@ -159,7 +159,7 @@ namespace HolidayApp.Concrete
                 Hotel entity = context.Hotels.Find(Id);
                 Image image = new Image();
 
-               
+
 
                 string text = "\\Hotel" + entity.HotelId + "Picturenr" + (count + 1).ToString() + ".jpg";
 
@@ -177,7 +177,7 @@ namespace HolidayApp.Concrete
         public string AddPictureParking(int Id, string Path)
         {
             int count = 0;
-            string text="";
+            string text = "";
             Parking data = context.Parkings.Find(Id);
             count = data.Images.Count();
             if (count > 5)
@@ -185,14 +185,14 @@ namespace HolidayApp.Concrete
                 return "";
             }
 
-           
+
 
             try
             {
                 Parking entity = context.Parkings.Find(Id);
                 Image image = new Image();
 
-                if(entity.Hotel==null)
+                if (entity.Hotel == null)
                 {
                     text = "\\Resort" + entity.Resort.ResortId;
                 }
@@ -352,6 +352,293 @@ namespace HolidayApp.Concrete
 
         }
 
+        //public bool BookHolidayHome(int Id, DateTime from, DateTime to)
+        //{
+        //    if (from >= to || DateTime.Now >= to)
+        //    {
+        //        return false;
+        //    }
+        //    from.AddHours(16);
+        //    to.AddHours(11);
+        //    HolidayHome home;
+        //    ReserveObject reserve = new ReserveObject();
+        //    reserve.bookingFrom = from;
+        //    reserve.bookingToo = to;
+        //    reserve.totalDays = to.Subtract(from).Days;
+        //    reserve.totalHours = to.Subtract(from).Hours;
+
+
+        //    try
+        //    {
+        //        home = context.HolidayHomes.Find(Id);
+        //        home.reserveTimes.Add(reserve);
+        //        context.SaveChanges();
+
+
+
+
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+
+
+
+
+
+        //}
+
+
+
+        public CheckBookingModel CheckForAvailableDays(DateTime from, DateTime to, List<ReserveObject> list)
+        {
+            CheckBookingModel model = new CheckBookingModel();
+
+            List<DateTime> listofdaystobook = new List<DateTime>();
+          
+
+            List<DateTime> DaysToRemove = new List<DateTime>();
+
+
+
+            int nightsCount = (int)Math.Round((to - from).TotalDays);
+            //int daysCount = (int)Math.Round((to - from).TotalDays+1);
+            for (int i = 0; i < nightsCount; i++)
+            {
+                listofdaystobook.Add(new DateTime(from.Year, from.Month, (from.Day + i),16,0,0));
+            }
+
+
+
+
+
+        //listofdaystobook[0]=listofdaystobook[0].AddHours(16);
+
+        //  int count=  listofdaystobook.Count-1;
+
+        //    listofdaystobook[count]= listofdaystobook[count].AddHours(11);
+
+
+            foreach (var datetime in listofdaystobook)
+            {
+
+                foreach (var reserveobj in list)
+                {
+
+                    if (datetime == reserveobj.bookingFrom || datetime == reserveobj.bookingToo || (datetime > reserveobj.bookingFrom && datetime < reserveobj.bookingToo))
+                    {
+                        DaysToRemove.Add(datetime);
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+
+
+
+
+
+            }
+
+          DaysToRemove=DaysToRemove.Distinct().ToList();
+
+            foreach (var item in DaysToRemove)
+            {
+
+                try
+                {
+                    listofdaystobook.Remove(item);
+                }
+                catch
+                {
+
+                }
+            }
+
+
+
+
+            if (listofdaystobook.Count == 0)
+            {
+                return model;
+            }
+            else
+            {
+
+                if (nightsCount == listofdaystobook.Count)
+                {
+                    model.Available = true;
+                }
+                else
+                {
+                    model.Available = false;
+                }
+
+                model.DaysAvailable = listofdaystobook.Count;
+                listofdaystobook.Sort((x, y) => x.Day.CompareTo(y.Day));
+                model.FirstDateAvailable = listofdaystobook.FirstOrDefault();
+
+
+                return model;
+
+
+            }
+
+
+        }
+
+
+
+
+
+        public CheckBookingModel bookholidayhome(int Id, DateTime from, DateTime to)
+        {
+            from = from + new TimeSpan(0, 16, 0, 0);
+            to = to + new TimeSpan(0, 11, 0, 0);
+            DateTime TimeofBookingMax = from - new TimeSpan(14, 0, 0, 0);
+
+            CheckBookingModel model = new CheckBookingModel();
+
+            List<ReserveObject> reservedList = new List<ReserveObject>();
+
+
+
+            try
+            {
+                reservedList = context.ReserveObjects.Where(d => d.bookingFrom >= TimeofBookingMax && d.bookingFrom <= to).ToList();
+
+            }
+            catch
+            {
+
+            }
+
+            if (reservedList.Count() == 0)
+            {
+                model.Available = true;
+                model.DaysAvailable = (to - from).Days;
+                model.FirstDateAvailable = from;
+            }
+            else
+            {
+                model = CheckForAvailableDays(from, to, reservedList);
+
+            }
+
+
+            if (model.Available == true)
+            {
+                HolidayHome home;
+                ReserveObject reserve = new ReserveObject();
+                reserve.bookingFrom = from;
+                reserve.bookingToo = to;
+                reserve.totalNights = (int)Math.Round((to - from).TotalDays); 
+               
+
+
+                try
+                {
+                    home = context.HolidayHomes.Find(Id);
+                    home.reserveTimes.Add(reserve);
+                    context.SaveChanges();
+
+
+
+
+
+                }
+                catch
+                {
+
+                }
+
+            }
+
+
+
+
+            return model;
+
+        }
+
+
+
+
+        //public CheckBookingModel bookholidayhome2(int Id, DateTime from, DateTime to)
+        //{
+        //    from = from + new TimeSpan(0, 16, 0, 0);
+        //    to = to + new TimeSpan(0, 11, 0, 0);
+        //    DateTime TimeofBookingMax = from - new TimeSpan(14, 0, 0, 0);
+
+        //    CheckBookingModel model = new CheckBookingModel();
+
+        //    List<ReserveObject> reservedList = new List<ReserveObject>();
+
+        //    if (from >= to || DateTime.Now >= to || DateTime.Now > from)
+        //    {
+        //        model.Available = false;
+        //        return model;
+        //    }
+
+
+        //    int TimeToCheckTo = to.Month;
+
+        //    try
+        //    {
+        //        reservedList = context.ReserveObjects.Where(d => d.bookingFrom >= TimeofBookingMax && d.bookingFrom <= to).ToList();
+
+        //    }
+        //    catch
+        //    {
+
+        //    }
+
+        //    if (reservedList.Count() == 0)
+        //    {
+        //        model.Available = true;
+        //        model.DaysAvailable = (to - from).Days;
+        //        model.FirstDateAvailable = from;
+        //    }
+        //    else
+        //    {
+
+        //        foreach (var item in reservedList)
+        //        {
+
+        //            if (item.bookingToo < from)
+        //            {
+        //                model.Available = true;
+        //                model.DaysAvailable = (to - from).Days;
+        //                model.FirstDateAvailable = from;
+        //            }
+        //            else if (item.bookingToo >= from)
+        //            {
+        //                model.Available = false;
+
+        //            }
+
+
+
+
+        //        }
+
+
+        //    }
+
+
+
+
+
+
+
+        //    return model;
+
+        //}
+
         public bool ChangeHotel(Hotel hotel)
         {
 
@@ -383,7 +670,7 @@ namespace HolidayApp.Concrete
 
         }
 
-       
+
 
         public List<Image> GetAllImagesHolidayHome(int Id)
         {
@@ -500,17 +787,17 @@ namespace HolidayApp.Concrete
             }
         }
 
-        public Image GetImageByIdHotel(int Id,int TypeId)
+        public Image GetImageByIdHotel(int Id, int TypeId)
         {
-            
+
             try
             {
                 Image image = context.Hotels.Where(x => x.HotelId == TypeId).FirstOrDefault().Images.Where(x => x.ImageId == Id).FirstOrDefault();
                 return image;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-              return  new Image();
+                return new Image();
             }
 
 
@@ -555,13 +842,13 @@ namespace HolidayApp.Concrete
             }
         }
 
-        public List<HolidayHome> GetListHHByCountryAndCity(string Country,string City)
+        public List<HolidayHome> GetListHHByCountryAndCity(string Country, string City)
         {
             List<HolidayHome> list = new List<HolidayHome>();
             try
             {
                 List<Resort> listResort = context.Resorts.Where(x => x.Country == Country).ToList();
-                listResort= listResort.Where(x => x.City == City).ToList();
+                listResort = listResort.Where(x => x.City == City).ToList();
                 foreach (var item in listResort)
                 {
                     list.AddRange(item.HolidayHomes);
@@ -576,7 +863,7 @@ namespace HolidayApp.Concrete
             }
         }
 
-        public List<Room> GetListRByCountryAndCity(string Country,string City)
+        public List<Room> GetListRByCountryAndCity(string Country, string City)
         {
 
             List<Room> list = new List<Room>();
@@ -775,12 +1062,12 @@ namespace HolidayApp.Concrete
                 {
                     Hotel hotel = context.Hotels.Find(HotelNumber[i]);
 
-                    if(hotel!=null)
+                    if (hotel != null)
                     {
-                     viewModel.HotelList.Add(hotel);
+                        viewModel.HotelList.Add(hotel);
                     }
-                   
-                    
+
+
                 }
                 catch
                 {
@@ -790,12 +1077,12 @@ namespace HolidayApp.Concrete
 
                 try
                 {
-                    Resort resort =context.Resorts.Find(ResortNumber[i]);
-                    if(resort!=null)
+                    Resort resort = context.Resorts.Find(ResortNumber[i]);
+                    if (resort != null)
                     {
-viewModel.ResortList.Add(resort);
+                        viewModel.ResortList.Add(resort);
                     }
-                    
+
                 }
                 catch
                 {
@@ -804,12 +1091,12 @@ viewModel.ResortList.Add(resort);
 
                 try
                 {
-                    Room room =context.Rooms.Find(RoomNumber[i]);
-                    if(room!=null)
+                    Room room = context.Rooms.Find(RoomNumber[i]);
+                    if (room != null)
                     {
-viewModel.RoomList.Add(room);
+                        viewModel.RoomList.Add(room);
                     }
-                    
+
                 }
                 catch
                 {
@@ -862,10 +1149,10 @@ viewModel.RoomList.Add(room);
             try
             {
                 HolidayHome holidayHome = context.HolidayHomes.Find(id);
-                if(holidayHome.Images.Count>0)
+                if (holidayHome.Images.Count > 0)
                 {
                     List<Image> images = holidayHome.Images.ToList();
-                    
+
                     foreach (var item in images)
                     {
                         holidayHome.Images.Remove(item);
@@ -914,12 +1201,12 @@ viewModel.RoomList.Add(room);
                 if (parkingList.Count > 0)
                 {
 
-                    
+
 
                     foreach (var item in parkingList)
                     {
 
-                      
+
 
 
 

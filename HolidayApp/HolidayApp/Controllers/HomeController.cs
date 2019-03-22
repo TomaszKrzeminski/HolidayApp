@@ -22,8 +22,31 @@ namespace HolidayApp.Controllers
         }
 
 
-        public ActionResult FiltrRoomAndHolidayHome(string country,string city,Choose choose,int guestnumber,int bednumber)
+        public ActionResult FiltrRoomAndHolidayHome(string country,string city,Choose choose,int guestnumber=0,int bednumber=0)
         {
+
+            if(string.IsNullOrEmpty(country))
+            {
+                ModelState.AddModelError("country", "Country is Required");
+            }
+
+            if ( string.IsNullOrEmpty(city))
+            {
+                ModelState.AddModelError("city", "City is Required");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                HolidayViewModel model = new HolidayViewModel();
+                model = repository.GetRandomPlaces();
+
+                
+                return View("Index",model);
+            }
+
+
+
             FiltrFactory factory = new FiltrFactory(repository);
             FiltrRoomHolidayHome filtrclass = factory.CreateObject(choose);
             filtrclass.Country = country;

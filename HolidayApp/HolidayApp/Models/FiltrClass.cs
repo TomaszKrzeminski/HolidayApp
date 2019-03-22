@@ -2,6 +2,7 @@
 using HolidayApp.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,13 +10,15 @@ namespace HolidayApp.Models
 {
     public enum Choose
     {
-        Room,HolidayHome
+        Room, HolidayHome
     }
 
 
     public abstract class FiltrRoomHolidayHome
     {
+        [Required]
         public string Country { get; set; }
+        [Required]
         public string City { get; set; }
         public Choose choose { get; set; }
         public int GuestNumber { get; set; }
@@ -57,7 +60,7 @@ namespace HolidayApp.Models
         }
 
 
-        public 
+        public
 
 
         void Filtr()
@@ -81,6 +84,8 @@ namespace HolidayApp.Models
 
         public FiltrClassHolidayHome(IHolidaysRepository param)
         {
+            GuestNumber = 0;
+            BedNumber = 0;
             repository = param;
             Rooms = new List<Room>();
 
@@ -89,7 +94,7 @@ namespace HolidayApp.Models
 
         public override void FiltrByCountryAndCity()
         {
-            if (!string.IsNullOrEmpty(City)&& !string.IsNullOrEmpty(Country))
+            if (!string.IsNullOrEmpty(City) && !string.IsNullOrEmpty(Country))
             {
                 HolidayHomes = repository.GetListHHByCountryAndCity(Country, City);
             }
@@ -127,6 +132,8 @@ namespace HolidayApp.Models
 
         public FiltrClassRoom(IHolidaysRepository param)
         {
+            GuestNumber = 0;
+            BedNumber = 0;
             repository = param;
             HolidayHomes = new List<HolidayHome>();
 

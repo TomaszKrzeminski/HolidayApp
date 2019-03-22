@@ -21,6 +21,20 @@ namespace HolidayApp.Models
 
     }
 
+    public class ReverveRoomModel
+    {
+        [Required(ErrorMessage = "Field is Required")]
+        [MustBeLaterThanNow(ErrorMessage = "Date must be later than today")]
+        public DateTime dateTo { get; set; }
+        [Required(ErrorMessage = "Field is Required")]
+        [MustBeLaterThanNow(ErrorMessage = "Date must be later than today")]
+        public DateTime dateFrom { get; set; }
+        [Required(ErrorMessage = "Field is Required")]
+        public int roomId { get; set; }
+
+
+    }
+
 
 
     public class MustBeLaterThanNowAttribute:ValidationAttribute

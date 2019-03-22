@@ -407,7 +407,11 @@ namespace HolidayApp.Concrete
             //int daysCount = (int)Math.Round((to - from).TotalDays+1);
             for (int i = 0; i < nightsCount; i++)
             {
-                listofdaystobook.Add(new DateTime(from.Year, from.Month, (from.Day + i),16,0,0));
+                //listofdaystobook.Add(new DateTime(from.Year, from.Month, (from.Day + i),16,0,0));
+                DateTime day = from;
+                day.AddHours(16);
+                day.AddDays(i);
+                listofdaystobook.Add(day);
             }
 
 
@@ -509,7 +513,11 @@ namespace HolidayApp.Concrete
 
             try
             {
-                reservedList = context.ReserveObjects.Where(d => d.bookingFrom >= TimeofBookingMax && d.bookingFrom <= to).ToList();
+                //change this
+                //reservedList = context.ReserveObjects.Where(d => d.bookingFrom >= TimeofBookingMax && d.bookingFrom <= to).ToList();
+
+                reservedList = context.HolidayHomes.Find(Id).reserveTimes.Where(d => d.bookingFrom >= TimeofBookingMax && d.bookingFrom <= to).ToList();
+
 
             }
             catch
@@ -1417,6 +1425,194 @@ namespace HolidayApp.Concrete
 
 
 
+        }
+
+        public List<DateTime> GetDaysBookedHolidayHome(int Id)
+        {
+            List<ReserveObject> list_reserveobjects = new List<ReserveObject>();
+            List<DateTime> listAll = new List<DateTime>();
+            List<DateTime> listDaysBooked = new List<DateTime>();
+            DateTime now= DateTime.Now.Date;
+            DateTime lastDay = now.AddDays(60);
+
+            try
+            {
+
+                
+
+                HolidayHome home = context.HolidayHomes.Find(Id);
+
+              list_reserveobjects=home.reserveTimes.Where(r => r.bookingFrom >= now && r.bookingFrom <= lastDay).ToList();
+
+                for (int i = 0; i < 60; i++)
+                {
+                    listAll.Add(now.AddDays(i));
+                }
+
+                for (int i = 0; i < 60; i++)
+                {
+
+                    foreach (var item in list_reserveobjects)
+                    {
+                       if( item.bookingFrom.Date==listAll[i].Date||listAll[i]>=item.bookingFrom&&listAll[i].Date<item.bookingToo.Date)
+                        {
+                            listDaysBooked.Add(listAll[i]);
+                        }
+                    }
+
+
+
+                }
+
+
+
+
+
+            }
+            catch
+            {
+                return listDaysBooked;
+            }
+
+            return listDaysBooked;
+
+
+        }
+
+        public List<DateTime> GetDaysBookedRoom(int Id)
+        {
+            List<ReserveObject> list_reserveobjects = new List<ReserveObject>();
+            List<DateTime> listAll = new List<DateTime>();
+            List<DateTime> listDaysBooked = new List<DateTime>();
+            DateTime now = DateTime.Now.Date;
+            DateTime lastDay = now.AddDays(60);
+
+            try
+            {
+
+
+
+                Room room = context.Rooms.Find(Id);
+
+                list_reserveobjects = room.reserveTimes.Where(r => r.bookingFrom >= now && r.bookingFrom <= lastDay).ToList();
+
+                for (int i = 0; i < 60; i++)
+                {
+                    listAll.Add(now.AddDays(i));
+                }
+
+                for (int i = 0; i < 60; i++)
+                {
+
+                    foreach (var item in list_reserveobjects)
+                    {
+                        if (item.bookingFrom.Date == listAll[i].Date || listAll[i] >= item.bookingFrom && listAll[i].Date < item.bookingToo.Date)
+                        {
+                            listDaysBooked.Add(listAll[i]);
+                        }
+                    }
+
+
+
+                }
+
+
+
+
+
+            }
+            catch
+            {
+                return listDaysBooked;
+            }
+
+            return listDaysBooked;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+        public CheckBookingModel bookroom(int Id, DateTime from, DateTime to)
+        {
+            from = from + new TimeSpan(0, 16, 0, 0);
+            to = to + new TimeSpan(0, 11, 0, 0);
+            DateTime TimeofBookingMax = from - new TimeSpan(14, 0, 0, 0);
+
+            CheckBookingModel model = new CheckBookingModel();
+
+            List<ReserveObject> reservedList = new List<ReserveObject>();
+
+
+
+            try
+            {
+                reservedList = context.Rooms.Find(Id).reserveTimes.Where(d => d.bookingFrom >= TimeofBookingMax && d.bookingFrom <= to).ToList();
+
+            }
+            catch
+            {
+
+            }
+
+            if (reservedList.Count() == 0)
+            {
+                model.Available = true;
+                model.DaysAvailable = (to - from).Days;
+                model.FirstDateAvailable = from;
+            }
+            else
+            {
+                model = CheckForAvailableDays(from, to, reservedList);
+
+            }
+
+
+            if (model.Available == true)
+            {
+                Room room;
+                ReserveObject reserve = new ReserveObject();
+                reserve.bookingFrom = from;
+                reserve.bookingToo = to;
+                reserve.totalNights = (int)Math.Round((to - from).TotalDays);
+
+
+
+                try
+                {
+                    room = context.Rooms.Find(Id);
+                    room.reserveTimes.Add(reserve);
+                    context.SaveChanges();
+
+
+
+
+
+                }
+                catch
+                {
+
+                }
+
+            }
+
+
+
+
+            return model;
         }
     }
 }

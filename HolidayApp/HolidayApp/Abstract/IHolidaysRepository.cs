@@ -53,13 +53,12 @@ namespace HolidayApp.Abstract
         List<HolidayHome> GetListHHByCountryAndCity(string Country,string City);
         List<Room> GetListRByCountryAndCity(string Country,string City);
 
-        //bool BookHolidayHome(int Id, DateTime from, DateTime to);
-        CheckBookingModel bookholidayhome(int Id, DateTime from, DateTime to);  
-        //bool AddRoom(Resort resort, Room room);
-        //bool AddRoom(Hotel hotel, Room room);
-        //bool AddParking(Resort resort, Parking parking);
-        //bool AddParking(Hotel hotel, Parking parking);
-        //bool AddHolidayHome(Resort resort, HolidayHome holidayhome);
+     
+        CheckBookingModel bookholidayhome(int Id, DateTime from, DateTime to);
+        CheckBookingModel bookroom(int Id, DateTime from, DateTime to);
+        List<DateTime> GetDaysBookedHolidayHome(int Id);
+        List<DateTime> GetDaysBookedRoom(int Id);
+
 
 
 

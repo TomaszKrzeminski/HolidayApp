@@ -23,6 +23,14 @@ namespace HolidayApp.Models
         public Choose choose { get; set; }
         public int GuestNumber { get; set; }
         public int BedNumber { get; set; }
+        public DateTime BookFrom {
+            get;
+            set;
+        }
+        public DateTime BookTo {
+            get;
+            set;
+        }
 
         public List<Room> Rooms { get; set; }
         public List<HolidayHome> HolidayHomes { get; set; }
@@ -59,6 +67,10 @@ namespace HolidayApp.Models
 
         }
 
+        public virtual void FiltrByDate()
+        {
+
+        }
 
         public
 
@@ -70,6 +82,7 @@ namespace HolidayApp.Models
             FiltrByHolidayHome();
             FiltrByGuestNumber();
             FiltrByBedNumber();
+            FiltrByDate();
         }
 
     }
@@ -120,6 +133,73 @@ namespace HolidayApp.Models
         }
 
 
+        public override void FiltrByDate()
+        {
+            List<HolidayHome> listofHolidayHomes = new List<HolidayHome>(HolidayHomes);
+            List<DateTime> timeinterval = new List<DateTime>();
+
+            if(BookFrom==DateTime.MinValue)
+            {
+                BookFrom = DateTime.Now.AddDays(1);
+            }
+
+            if(BookTo==DateTime.MinValue)
+            {
+                BookTo = BookFrom.AddMonths(1);
+            }
+
+
+            int nightsCount = (int)Math.Round((BookTo - BookFrom).TotalDays);
+          
+            for (int i = 0; i < nightsCount; i++)
+            {
+
+                DateTime dayinter = BookFrom;
+                dayinter = dayinter.AddHours(16);
+                dayinter = dayinter.AddDays(i);
+                timeinterval.Add(dayinter);
+            }
+
+
+
+            foreach (var holidayhome in HolidayHomes)
+            {
+
+
+                foreach (var reservetime in holidayhome.reserveTimes)
+                {
+
+
+
+
+                    foreach (var day in timeinterval)
+                    {
+
+                        if(day>=reservetime.bookingFrom&&day<=reservetime.bookingToo)
+                        {
+                            listofHolidayHomes.Remove(holidayhome);
+                        }
+                       
+                    }
+
+
+
+                }
+
+
+
+
+            }
+
+
+
+
+            HolidayHomes = listofHolidayHomes;
+
+
+        }
+
+
 
     }
 
@@ -164,9 +244,80 @@ namespace HolidayApp.Models
 
         }
 
+        public override void FiltrByDate()
+        {
+            List<Room> listofRooms = new List<Room>(Rooms);
+            
+            List<DateTime> timeinterval = new List<DateTime>();
 
+            if (BookFrom == null)
+            {
+                BookFrom = DateTime.Now.AddDays(1);
+            }
+
+            if (BookTo == null)
+            {
+                BookTo = BookFrom.AddMonths(1);
+            }
+
+
+            int nightsCount = (int)Math.Round((BookTo - BookFrom).TotalDays);
+
+ 
+            for (int i = 0; i < nightsCount; i++)
+            {
+
+               DateTime dayinter = BookFrom;
+                dayinter= dayinter.AddHours(16);
+                dayinter= dayinter.AddDays(i);
+                timeinterval.Add(dayinter);
+            }
+
+
+
+            foreach (var room in Rooms)
+                     
+            {
+              
+
+                foreach (var reservetime in room.reserveTimes)
+                {
+
+
+
+
+                    foreach (var day in timeinterval)
+                    {
+
+                        if (day >= reservetime.bookingFrom && day <= reservetime.bookingToo)
+                        {
+                            
+                            listofRooms.Remove(room);
+                        }
+
+                    }
+
+
+
+                }
+
+
+
+
+            }
+
+
+
+
+           Rooms = listofRooms;
+
+
+        }
 
 
 
     }
+
+
+
 }

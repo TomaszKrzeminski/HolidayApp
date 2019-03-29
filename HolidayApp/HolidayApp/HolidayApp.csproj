@@ -476,6 +476,7 @@
     <Content Include="Views\Home\CalendarView.cshtml" />
     <Content Include="Views\Client\BookHolidayHome.cshtml" />
     <Content Include="Views\Client\BookRoom.cshtml" />
+    <Content Include="Views\Home\FiltrResortHotel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

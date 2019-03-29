@@ -59,7 +59,8 @@ namespace HolidayApp.Abstract
         List<DateTime> GetDaysBookedHolidayHome(int Id);
         List<DateTime> GetDaysBookedRoom(int Id);
 
-
+        List<Resort> GetResortsByCountryAndCity(string Country, string City);
+        List<Hotel> GetHotelsByCountryAndCity(string Country, string City);
 
 
 

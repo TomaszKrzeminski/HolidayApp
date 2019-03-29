@@ -21,8 +21,20 @@ namespace HolidayApp.Controllers
 
         }
 
+        public ActionResult ShowAvailableRoomsHolidayHomes(List<Room> rooms=null,List<HolidayHome> holidayhomes=null)
+        {
+          
 
-        public ActionResult FiltrRoomAndHolidayHome(string country,string city,Choose choose,int guestnumber=0,int bednumber=0,DateTime? bookfrom=null,DateTime? bookto=null)
+
+            SearchModelView viewmodel = new SearchModelView();
+            viewmodel.holidayhomes = holidayhomes!=null ? holidayhomes : new List<HolidayHome>();
+            viewmodel.rooms = rooms != null ? rooms : new List<Room>(); 
+
+            return View("FiltrRoomAndHolidayHome", viewmodel);
+        }
+
+
+        public ActionResult FiltrRoomAndHolidayHome(string country,string city,int guestnumber=0,int bednumber=0,DateTime? bookfrom=null,DateTime? bookto=null)
         {
 
             if(string.IsNullOrEmpty(country))
@@ -67,27 +79,81 @@ namespace HolidayApp.Controllers
             }
 
 
+            return RedirectToAction("FiltrResortHotel", new { country = country, city = city, guestnumber = guestnumber, bednumber = bednumber, bookfrom = bookfrom, bookto = bookto });
+        }
+        
+        public ActionResult FiltrResortHotel(string country, string city, int guestnumber = 0, int bednumber = 0, DateTime? bookfrom = null, DateTime? bookto = null)
+        {
 
-            FiltrFactory factory = new FiltrFactory(repository);
-            FiltrRoomHolidayHome filtrclass = factory.CreateObject(choose);
+
+            if (string.IsNullOrEmpty(country))
+            {
+                ModelState.AddModelError("country", "Country is Required");
+            }
+
+            if (string.IsNullOrEmpty(city))
+            {
+                ModelState.AddModelError("city", "City is Required");
+            }
+
+
+            if (bookfrom > bookto)
+            {
+                ModelState.AddModelError("bookfrom", "Book From is Later than Book To");
+            }
+
+            if (bookfrom == bookto && bookto != null)
+            {
+                ModelState.AddModelError("bookfrom", "Book From is equal Book To");
+            }
+
+
+            if (bookfrom <= DateTime.Now)
+            {
+                ModelState.AddModelError("bookfrom", "Book From should be later than today");
+            }
+
+            if (bookto <= DateTime.Now)
+            {
+                ModelState.AddModelError("bookto", "Book to should be later than today");
+            }
+
+           
+
+
+
+
+            FiltrClassResortHotel filtrclass = new FiltrClassResortHotel(repository);
             filtrclass.Country = country;
             filtrclass.City = city;
-            filtrclass.choose = choose;
             filtrclass.GuestNumber = guestnumber;
             filtrclass.BedNumber = bednumber;
-            filtrclass.BookFrom = bookfrom==null?DateTime.MinValue:(DateTime)bookfrom ;
-            filtrclass.BookTo =bookto==null?DateTime.MinValue:(DateTime)bookto;
+            filtrclass.BookFrom = bookfrom == null ? DateTime.MinValue : (DateTime)bookfrom;
+            filtrclass.BookTo = bookto == null ? DateTime.MinValue : (DateTime)bookto;
+
 
 
             filtrclass.Filtr();
 
 
-            SearchModelView viewmodel = new SearchModelView();
-            viewmodel.holidayhomes = filtrclass.HolidayHomes;
-            viewmodel.rooms = filtrclass.Rooms;
+            SearchModelViewResortHotel viewmodel = new SearchModelViewResortHotel();
+            viewmodel.Hotels = filtrclass.Hotels;
+            viewmodel.Resorts = filtrclass.Resorts;
+            viewmodel.ResortListOfHolidayHomes = filtrclass.ResortListOfHolidayHomes;
+            viewmodel.ResortListOfRooms = filtrclass.ResortListOfRooms;
+            viewmodel.HotelListOfRooms = filtrclass.HotelListOfRooms;
 
-            return View(viewmodel);
+
+
+
+            return View("FiltrResortHotel", viewmodel);
+
         }
+
+
+
+
+
 
 
         public ActionResult FiltrRoomAndHolidayHomeSecond(string country, string city, Choose choose, int guestnumber = 0, int bednumber = 0, DateTime? bookfrom = null, DateTime? bookto = null,List<HolidayHome> holidayhomes=null,List<Room> rooms=null)
@@ -151,7 +217,7 @@ namespace HolidayApp.Controllers
             FiltrRoomHolidayHome filtrclass = factory.CreateObject(choose);
             filtrclass.Country = country;
             filtrclass.City = city;
-            filtrclass.choose = choose;
+          
             filtrclass.GuestNumber = guestnumber;
             filtrclass.BedNumber = bednumber;
             filtrclass.BookFrom = bookfrom == null ? DateTime.MinValue : (DateTime)bookfrom;

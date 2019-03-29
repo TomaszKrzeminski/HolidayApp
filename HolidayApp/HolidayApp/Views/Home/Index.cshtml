@@ -4,8 +4,7 @@
 
 @{
     ViewBag.Title = "Home Page";
-    bool showHotel;
-    bool showResort;
+  
 }
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -41,10 +40,6 @@
                 <div class="form-group">
                     @Html.Label("City")
                     @Html.TextBox("city", null, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.DropDownList("choose", EnumHelper.GetSelectList(typeof(Choose)), new { @class = "form-control" })
-
                 </div>
                 <div class="form-group">
                     @Html.Label("Number of Guests")

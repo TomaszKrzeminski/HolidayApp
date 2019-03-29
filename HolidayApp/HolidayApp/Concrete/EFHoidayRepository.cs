@@ -1433,6 +1433,8 @@ namespace HolidayApp.Concrete
             List<DateTime> listAll = new List<DateTime>();
             List<DateTime> listDaysBooked = new List<DateTime>();
             DateTime now= DateTime.Now.Date;
+           
+            DateTime TwoWeeksSooner = now.AddDays(-14);
             DateTime lastDay = now.AddDays(60);
 
             try
@@ -1442,7 +1444,8 @@ namespace HolidayApp.Concrete
 
                 HolidayHome home = context.HolidayHomes.Find(Id);
 
-              list_reserveobjects=home.reserveTimes.Where(r => r.bookingFrom >= now && r.bookingFrom <= lastDay).ToList();
+                list_reserveobjects = home.reserveTimes.Where(r => r.bookingFrom >= TwoWeeksSooner && r.bookingToo <= lastDay).ToList();
+                //list_reserveobjects =home.reserveTimes.Where(r => r.bookingFrom >= now && r.bookingFrom <= lastDay).ToList();
 
                 for (int i = 0; i < 60; i++)
                 {
@@ -1613,6 +1616,43 @@ namespace HolidayApp.Concrete
 
 
             return model;
+        }
+
+        public List<Resort> GetResortsByCountryAndCity(string Country, string City)
+        {
+            List<Resort> Resorts = new List<Resort>();
+
+            try
+            {
+                Resorts = context.Resorts.Where(r => r.City == City && r.Country == Country).ToList();
+                return Resorts;
+            }
+            catch
+            {
+                return Resorts;
+            }
+
+        }
+
+        public List<Hotel> GetHotelsByCountryAndCity(string Country, string City)
+        {
+
+            List<Hotel> Hotels = new List<Hotel>();
+
+            try
+            {
+                Hotels = context.Hotels.Where(r => r.City == City && r.Country == Country).ToList();
+                return Hotels;
+            }
+            catch
+            {
+                return Hotels;
+            }
+
+
+
+
+
         }
     }
 }

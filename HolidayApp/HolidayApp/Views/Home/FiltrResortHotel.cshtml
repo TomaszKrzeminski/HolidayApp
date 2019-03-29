@@ -1,0 +1,250 @@
+﻿@using HolidayApp.Models
+@model SearchModelViewResortHotel
+@{
+    ViewBag.Title = "ResortsHotels";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<style type="text/css">
+    .field-validation-error {
+        color: red;
+    }
+</style>
+
+<div>
+    xxxxxxx
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4" id="SortElements" style="background-color:#FECF92;">
+
+            @using (Html.BeginForm("FiltrResortHotel", "Home"))
+            {
+                <div>
+                    @Html.ValidationMessage("country")
+                </div>
+                <div class="form-group">
+                    @Html.Label("Country")
+                    @Html.TextBox("country", null, new { @class = "form-control" })
+                </div>
+                <div>
+                    @Html.ValidationMessage("city")
+                </div>
+                <div class="form-group">
+                    @Html.Label("City")
+                    @Html.TextBox("city", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Number of Guests")
+                    @Html.TextBox("guestnumber", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Number of Beds")
+                    @Html.TextBox("bednumber", null, new { @class = "form-control" })
+                </div>
+                <div>
+                    @Html.ValidationMessage("bookfrom")
+                </div>
+                <div class="form-group">
+                    @Html.Label("Book From")
+                    @Html.TextBox("bookfrom", null, new { @class = "form-control datepicker" })
+                </div>
+                <div>
+                    @Html.ValidationMessage("bookto")
+                </div>
+                <div class="form-group">
+                    @Html.Label("Book To")
+                    @Html.TextBox("bookto", null, new { @class = "form-control datepicker" })
+                </div>
+
+                <div>
+                    <input type="submit" value="Search" class="form-control" />
+                </div>
+            }
+
+
+
+
+        </div>
+        <div class="col-lg-8" id="ShowElements" style="background-color:yellow;">
+
+
+
+            @foreach (var item in Model.Hotels)
+            {
+
+
+
+                <div class="row" style="background-color:#A0FCD2">
+                    <div class="col-lg-4">
+
+                        @if (item.Images != null && item.Images.Count > 0)
+                        {
+                            <img src="@Url.Content(item.Images.FirstOrDefault().ImagePath)" class="img-responsive" />
+                        }
+
+
+                    </div>
+
+                    <div class="col-lg-8">
+
+                        <h3>Hotel Name  @item.Name    Hotel City @item.City   Country @item.Country</h3>
+
+                        <p>
+                            Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
+                        </p>
+
+                        @using (Html.BeginForm("ShowAvailableRoomsHolidayHomes","Home"))
+                        {
+
+                          
+
+                            for (int i = 0; i < Model.HotelListOfRooms[item].Count; i++)
+                            {
+                                <div>
+                                    @Html.Hidden("rooms[" + i + "].RoomId", Model.HotelListOfRooms[item][i].RoomId, new { })
+                                    @Html.Hidden("rooms[" + i + "].Price", Model.HotelListOfRooms[item][i].Price, new { })
+                                    @Html.Hidden("rooms[" + i + "].numberofGuests", Model.HotelListOfRooms[item][i].numberofGuests, new { })
+                                    @Html.Hidden("rooms[" + i + "].numberofBeds", Model.HotelListOfRooms[item][i].numberofBeds, new { })
+                                    @Html.Hidden("rooms[" + i + "].doubleBed", Model.HotelListOfRooms[item][i].doubleBed, new { })
+                                    @Html.Hidden("rooms[" + i + "].petsAllowed", Model.HotelListOfRooms[item][i].petsAllowed, new { })
+                                    @Html.Hidden("rooms[" + i + "].Kitchen", Model.HotelListOfRooms[item][i].Kitchen, new { })
+                                    @Html.Hidden("rooms[" + i + "].Toilet", Model.HotelListOfRooms[item][i].Toilet, new { })
+                                    @Html.Hidden("rooms[" + i + "].numberofTelevisions", Model.HotelListOfRooms[item][i].numberofTelevisions, new { })
+                               </div>
+                               
+                            }
+
+                            <div>
+                                <input type="submit" value="Show" class="btn btn-warning" />
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+
+
+            }
+
+
+
+            @foreach (var item in Model.Resorts)
+            {
+
+
+
+                <div class="row" style="background-color:#A0FCD2">
+                    <div class="col-lg-4">
+                        @if (item.Images != null && item.Images.Count > 0)
+                        {
+                            <img src="@Url.Content(item.Images.FirstOrDefault().ImagePath)" class="img-responsive" />
+                        }
+
+
+                    </div>
+
+                    <div class="col-lg-8">
+
+                        <h3>Resort Name  @item.Name    Resort City @item.City   Country @item.Country</h3>
+
+
+                        <p>
+                            Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
+                        </p>
+
+                        @using (Html.BeginForm("ShowAvailableRoomsHolidayHomes", "Home"))
+                        {
+
+
+
+                            for (int i = 0; i < Model.ResortListOfRooms[item].Count; i++)
+                            {
+                                <div>
+                                   
+
+                                    @Html.Hidden("rooms[" + i + "].RoomId", Model.ResortListOfRooms[item][i].RoomId, new { })
+                                    @Html.Hidden("rooms[" + i + "].Price", Model.ResortListOfRooms[item][i].Price, new { })
+                                    @Html.Hidden("rooms[" + i + "].numberofGuests", Model.ResortListOfRooms[item][i].numberofGuests, new { })
+                                    @Html.Hidden("rooms[" + i + "].numberofBeds", Model.ResortListOfRooms[item][i].numberofBeds, new { })
+                                    @Html.Hidden("rooms[" + i + "].doubleBed", Model.ResortListOfRooms[item][i].doubleBed, new { })
+                                    @Html.Hidden("rooms[" + i + "].petsAllowed", Model.ResortListOfRooms[item][i].petsAllowed, new { })
+                                    @Html.Hidden("rooms[" + i + "].Kitchen", Model.ResortListOfRooms[item][i].Kitchen, new { })
+                                    @Html.Hidden("rooms[" + i + "].Toilet", Model.ResortListOfRooms[item][i].Toilet, new { })
+                                    @Html.Hidden("rooms[" + i + "].numberofTelevisions", Model.ResortListOfRooms[item][i].numberofTelevisions, new { })
+
+
+                                </div>
+
+                            }
+
+                            for (int i = 0; i < Model.ResortListOfHolidayHomes[item].Count; i++)
+                            {
+                                <div>
+                                    @Html.Hidden("holidayhomes[" + i + "].RoomId", Model.ResortListOfHolidayHomes[item][i].HolidayHomeId, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].Price", Model.ResortListOfHolidayHomes[item][i].Price, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].numberofGuests", Model.ResortListOfHolidayHomes[item][i].numberofGuests, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].numberofBeds", Model.ResortListOfHolidayHomes[item][i].numberofBeds, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].doubleBed", Model.ResortListOfHolidayHomes[item][i].doubleBed, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].petsAllowed", Model.ResortListOfHolidayHomes[item][i].petsAllowed, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].Kitchen", Model.ResortListOfHolidayHomes[item][i].Kitchen, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].Toilet", Model.ResortListOfHolidayHomes[item][i].Toilet, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].numberofTelevisions", Model.ResortListOfHolidayHomes[item][i].numberofTelevisions, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].numberofFloors", Model.ResortListOfHolidayHomes[item][i].numberofFloors, new { })
+
+
+                                </div>
+
+                            }
+
+                            <div>
+                                <input type="submit" value="Show"  class="btn btn-warning"/>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script type="text/javascript">
+    $(function () {
+       $('.datepicker').datepicker();
+    });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+}

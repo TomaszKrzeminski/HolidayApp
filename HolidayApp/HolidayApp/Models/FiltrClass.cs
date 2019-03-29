@@ -23,11 +23,13 @@ namespace HolidayApp.Models
         public Choose choose { get; set; }
         public int GuestNumber { get; set; }
         public int BedNumber { get; set; }
-        public DateTime BookFrom {
+        public DateTime BookFrom
+        {
             get;
             set;
         }
-        public DateTime BookTo {
+        public DateTime BookTo
+        {
             get;
             set;
         }
@@ -87,7 +89,498 @@ namespace HolidayApp.Models
 
     }
 
+    public abstract class FiltrResortHotel
+    {
+        [Required]
+        public string Country { get; set; }
+        [Required]
+        public string City { get; set; }
 
+        public int GuestNumber { get; set; }
+        public int BedNumber { get; set; }
+        public DateTime BookFrom
+        {
+            get;
+            set;
+        }
+        public DateTime BookTo
+        {
+            get;
+            set;
+        }
+
+        public List<Hotel> Hotels { get; set; }
+        public List<Resort> Resorts { get; set; }
+        /// 
+
+        public Dictionary<Hotel, List<Room>> HotelListOfRooms { get; set; }
+        public Dictionary<Resort, List<HolidayHome>> ResortListOfHolidayHomes { get; set; }
+        public Dictionary<Resort, List<Room>> ResortListOfRooms { get; set; }
+
+        /// <summary>
+
+
+        public virtual List<Hotel> GetHotels()
+        {
+            return new List<Hotel>();
+        }
+
+        public virtual List<Resort> GetResorts()
+        {
+            return new List<Resort>();
+        }
+
+        public virtual void FiltrByCountryAndCity()
+        {
+
+        }
+
+
+        public virtual void FiltrByGuestNumber()
+        {
+
+        }
+        public virtual void FiltrByBedNumber()
+        {
+
+        }
+
+        public virtual void FiltrByDate()
+        {
+
+        }
+
+        public
+
+
+        void Filtr()
+        {
+            FiltrByCountryAndCity();
+            FiltrByGuestNumber();
+            FiltrByBedNumber();
+            FiltrByDate();
+        }
+
+    }
+
+    public class FiltrClassResortHotel : FiltrResortHotel
+    {
+        IHolidaysRepository repository;
+
+
+
+        public FiltrClassResortHotel(IHolidaysRepository param)
+        {
+            GuestNumber = 0;
+            BedNumber = 0;
+            repository = param;
+            Hotels = new List<Hotel>();
+            Resorts = new List<Resort>();
+            HotelListOfRooms = new Dictionary<Hotel, List<Room>>();
+            ResortListOfHolidayHomes = new Dictionary<Resort, List<HolidayHome>>();
+            ResortListOfRooms = new Dictionary<Resort, List<Room>>();
+
+        }
+
+
+        public override void FiltrByCountryAndCity()
+        {
+            if (!string.IsNullOrEmpty(City) && !string.IsNullOrEmpty(Country))
+            {
+                Resorts = repository.GetResortsByCountryAndCity(Country, City);
+                Hotels = repository.GetHotelsByCountryAndCity(Country, City);
+
+            }
+
+        }
+
+
+        public override void FiltrByGuestNumber()
+        {
+            if (GuestNumber > 0)
+            {
+
+                if (Resorts != null)
+                {
+
+                    List<HolidayHome> list = Resorts.SelectMany(r => r.HolidayHomes).Where(h => h.numberofGuests == GuestNumber).ToList();
+                    List<Resort> listresort = list.Select(l => l.Resort).ToList();
+                    Resorts = listresort.AsEnumerable<Resort>().Distinct().ToList();
+                    List<Room> listroom = Resorts.SelectMany(r => r.Rooms).Where(h => h.numberofGuests == GuestNumber).ToList();
+                    List<Resort> listresort2 = list.Select(l => l.Resort).ToList();
+                    Resorts.AddRange(listresort2);
+                    Resorts = Resorts.AsEnumerable<Resort>().Distinct().ToList();
+
+
+                }
+
+                if (Hotels != null)
+                {
+
+                    List<Room> list = Hotels.SelectMany(r => r.Rooms).Where(h => h.numberofGuests == GuestNumber).ToList();
+                    List<Hotel> listhotel = list.Select(l => l.Hotel).ToList();
+                    Hotels = listhotel.AsEnumerable<Hotel>().Distinct().ToList();
+
+                }
+
+
+
+
+            }
+
+        }
+        public override void FiltrByBedNumber()
+        {
+            if (BedNumber > 0)
+            {
+
+                if (Resorts != null)
+                {
+                    List<HolidayHome> list = Resorts.SelectMany(r => r.HolidayHomes).Where(h => h.numberofBeds == BedNumber).ToList();
+                    List<Resort> listresort = list.Select(l => l.Resort).ToList();
+                    Resorts = listresort.AsEnumerable<Resort>().Distinct().ToList();
+                    List<Room> listroom = Resorts.SelectMany(r => r.Rooms).Where(h => h.numberofBeds == BedNumber).ToList();
+                    List<Resort> listresort2 = list.Select(l => l.Resort).ToList();
+                    Resorts.AddRange(listresort2);
+                    Resorts = Resorts.AsEnumerable<Resort>().Distinct().ToList();
+
+
+                }
+
+                if (Hotels != null)
+                {
+                    List<Room> list = Hotels.SelectMany(r => r.Rooms).Where(h => h.numberofBeds == BedNumber).ToList();
+                    List<Hotel> listhotel = list.Select(l => l.Hotel).ToList();
+                    Hotels = listhotel.AsEnumerable<Hotel>().Distinct().ToList();
+
+
+                }
+
+
+            }
+
+        }
+
+
+        public override void FiltrByDate()
+        {
+
+
+            if (Resorts != null)
+            {
+
+                List<HolidayHome> HolidayHomes = Resorts.SelectMany(x => x.HolidayHomes).ToList();
+                List<HolidayHome> listofHolidayHomes = new List<HolidayHome>(HolidayHomes);
+                List<DateTime> timeinterval = new List<DateTime>();
+
+                if (BookFrom == DateTime.MinValue)
+                {
+                    BookFrom = DateTime.Now.AddDays(1);
+                }
+
+                if (BookTo == DateTime.MinValue)
+                {
+                    BookTo = BookFrom.AddMonths(1);
+                }
+
+
+                int nightsCount = (int)Math.Round((BookTo - BookFrom).TotalDays);
+
+                for (int i = 0; i < nightsCount; i++)
+                {
+
+                    DateTime dayinter = BookFrom;
+                    dayinter = dayinter.AddHours(16);
+                    dayinter = dayinter.AddDays(i);
+                    timeinterval.Add(dayinter);
+                }
+
+
+
+                foreach (var holidayhome in HolidayHomes)
+                {
+
+
+                    foreach (var reservetime in holidayhome.reserveTimes)
+                    {
+
+
+
+
+                        foreach (var day in timeinterval)
+                        {
+
+                            if (day >= reservetime.bookingFrom && day <= reservetime.bookingToo)
+                            {
+                                listofHolidayHomes.Remove(holidayhome);
+                            }
+
+                        }
+
+
+
+                    }
+
+
+
+
+                }
+
+
+
+
+
+                List<Resort> listresort2 = listofHolidayHomes.Select(l => l.Resort).ToList();
+
+
+                /////////
+
+                List<Room> Rooms = Resorts.SelectMany(h => h.Rooms).ToList();
+                List<Room> listofRooms = new List<Room>(Rooms);
+
+                List<DateTime> timeinterval2 = new List<DateTime>();
+
+                if (BookFrom == null)
+                {
+                    BookFrom = DateTime.Now.AddDays(1);
+                }
+
+                if (BookTo == null)
+                {
+                    BookTo = BookFrom.AddMonths(1);
+                }
+
+
+                int nightsCount2 = (int)Math.Round((BookTo - BookFrom).TotalDays);
+
+
+                for (int i = 0; i < nightsCount2; i++)
+                {
+
+                    DateTime dayinter = BookFrom;
+                    dayinter = dayinter.AddHours(16);
+                    dayinter = dayinter.AddDays(i);
+                    timeinterval2.Add(dayinter);
+                }
+
+
+
+                foreach (var room in Rooms)
+
+                {
+
+
+                    foreach (var reservetime in room.reserveTimes)
+                    {
+
+
+
+
+                        foreach (var day in timeinterval2)
+                        {
+
+                            if (day >= reservetime.bookingFrom && day <= reservetime.bookingToo)
+                            {
+
+                                listofRooms.Remove(room);
+                            }
+
+                        }
+
+
+
+                    }
+
+
+
+
+                }
+
+
+
+
+                Rooms = listofRooms;
+                List<Resort> listofResorts = Rooms.Select(x => x.Resort).ToList();
+                Resorts = new List<Resort>();
+                Resorts.AddRange(listofResorts);
+                Resorts.AddRange(listresort2);
+                Resorts = Resorts.AsEnumerable<Resort>().Distinct().ToList();
+
+
+                if (Rooms != null && Rooms.Count > 0)
+                {
+
+
+                    foreach (var resort in Resorts)
+                    {
+
+                        List<Room> listDictionary = new List<Room>();
+
+                        foreach (var room in listofRooms)
+                        {
+
+                            if (resort.Rooms.Contains(room))
+                            {
+                                listDictionary.Add(room);
+                            }
+
+
+                        }
+
+                        ResortListOfRooms.Add(resort, listDictionary);
+                        listDictionary = new List<Room>();
+
+                    }
+
+
+                }
+
+                if (HolidayHomes != null && HolidayHomes.Count > 0)
+                {
+
+
+                    foreach (var resort in Resorts)
+                    {
+
+                        List<HolidayHome> listDictionary = new List<HolidayHome>();
+
+                        foreach (var holidayhome in listofHolidayHomes)
+                        {
+
+                            if (resort.HolidayHomes.Contains(holidayhome))
+                            {
+                                listDictionary.Add(holidayhome);
+                            }
+
+
+                        }
+
+                        ResortListOfHolidayHomes.Add(resort, listDictionary);
+
+
+                    }
+
+
+                }
+
+
+
+
+
+                /////////
+
+            }
+
+            if (Hotels != null)
+            {
+                List<Room> Rooms = Hotels.SelectMany(h => h.Rooms).ToList();
+                List<Room> listofRooms = new List<Room>(Rooms);
+
+                List<DateTime> timeinterval = new List<DateTime>();
+
+                if (BookFrom == null)
+                {
+                    BookFrom = DateTime.Now.AddDays(1);
+                }
+
+                if (BookTo == null)
+                {
+                    BookTo = BookFrom.AddMonths(1);
+                }
+
+
+                int nightsCount = (int)Math.Round((BookTo - BookFrom).TotalDays);
+
+
+                for (int i = 0; i < nightsCount; i++)
+                {
+
+                    DateTime dayinter = BookFrom;
+                    dayinter = dayinter.AddHours(16);
+                    dayinter = dayinter.AddDays(i);
+                    timeinterval.Add(dayinter);
+                }
+
+
+
+                foreach (var room in Rooms)
+
+                {
+
+
+                    foreach (var reservetime in room.reserveTimes)
+                    {
+
+
+
+
+                        foreach (var day in timeinterval)
+                        {
+
+                            if (day >= reservetime.bookingFrom && day <= reservetime.bookingToo)
+                            {
+
+                                listofRooms.Remove(room);
+                            }
+
+                        }
+
+
+
+                    }
+
+
+
+
+                }
+
+
+
+
+                Rooms = listofRooms;
+                Hotels = Hotels.AsEnumerable<Hotel>().Distinct().ToList();
+
+
+
+                if (Rooms != null && Rooms.Count > 0)
+                {
+
+
+                    foreach (var hotel in Hotels)
+                    {
+
+                        List<Room> listDictionary = new List<Room>();
+
+                        foreach (var room in Rooms)
+                        {
+
+                            if (hotel.Rooms.Contains(room))
+                            {
+                                listDictionary.Add(room);
+                            }
+
+
+                        }
+
+                        HotelListOfRooms.Add(hotel, listDictionary);
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+
+
+        }
+
+
+
+    }
 
     public class FiltrClassHolidayHome : FiltrRoomHolidayHome
     {
@@ -138,19 +631,19 @@ namespace HolidayApp.Models
             List<HolidayHome> listofHolidayHomes = new List<HolidayHome>(HolidayHomes);
             List<DateTime> timeinterval = new List<DateTime>();
 
-            if(BookFrom==DateTime.MinValue)
+            if (BookFrom == DateTime.MinValue)
             {
                 BookFrom = DateTime.Now.AddDays(1);
             }
 
-            if(BookTo==DateTime.MinValue)
+            if (BookTo == DateTime.MinValue)
             {
                 BookTo = BookFrom.AddMonths(1);
             }
 
 
             int nightsCount = (int)Math.Round((BookTo - BookFrom).TotalDays);
-          
+
             for (int i = 0; i < nightsCount; i++)
             {
 
@@ -175,11 +668,11 @@ namespace HolidayApp.Models
                     foreach (var day in timeinterval)
                     {
 
-                        if(day>=reservetime.bookingFrom&&day<=reservetime.bookingToo)
+                        if (day >= reservetime.bookingFrom && day <= reservetime.bookingToo)
                         {
                             listofHolidayHomes.Remove(holidayhome);
                         }
-                       
+
                     }
 
 
@@ -247,7 +740,7 @@ namespace HolidayApp.Models
         public override void FiltrByDate()
         {
             List<Room> listofRooms = new List<Room>(Rooms);
-            
+
             List<DateTime> timeinterval = new List<DateTime>();
 
             if (BookFrom == null)
@@ -263,22 +756,22 @@ namespace HolidayApp.Models
 
             int nightsCount = (int)Math.Round((BookTo - BookFrom).TotalDays);
 
- 
+
             for (int i = 0; i < nightsCount; i++)
             {
 
-               DateTime dayinter = BookFrom;
-                dayinter= dayinter.AddHours(16);
-                dayinter= dayinter.AddDays(i);
+                DateTime dayinter = BookFrom;
+                dayinter = dayinter.AddHours(16);
+                dayinter = dayinter.AddDays(i);
                 timeinterval.Add(dayinter);
             }
 
 
 
             foreach (var room in Rooms)
-                     
+
             {
-              
+
 
                 foreach (var reservetime in room.reserveTimes)
                 {
@@ -291,7 +784,7 @@ namespace HolidayApp.Models
 
                         if (day >= reservetime.bookingFrom && day <= reservetime.bookingToo)
                         {
-                            
+
                             listofRooms.Remove(room);
                         }
 
@@ -309,7 +802,7 @@ namespace HolidayApp.Models
 
 
 
-           Rooms = listofRooms;
+            Rooms = listofRooms;
 
 
         }

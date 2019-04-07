@@ -1600,7 +1600,7 @@ namespace HolidayApp.Concrete
                     room.reserveTimes.Add(reserve);
                     context.SaveChanges();
 
-
+                  
 
 
 
@@ -1647,6 +1647,149 @@ namespace HolidayApp.Concrete
             catch
             {
                 return Hotels;
+            }
+
+
+
+
+
+        }
+
+     public bool  AddComment(Resort resort, Hotel hotel, ApplicationUser user,string text)
+        {
+
+            Comment comment = new Comment();
+            
+            if(text=="")
+            {
+                return false;
+            }
+            else
+            {
+                comment.Text = text;
+            }
+
+            if(resort!=null)
+            {
+
+                try
+                {
+                    context.Comments.Add(comment);
+                    //context.SaveChanges();
+                    resort.Comments.Add(comment);
+                    user.Comments.Add(comment);
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    return false;
+
+                }
+
+
+
+
+
+            }
+            else if(hotel!=null)
+            {
+
+                try
+                {
+                    context.Comments.Add(comment);
+                    hotel.Comments.Add(comment);
+                    user.Comments.Add(comment);
+                    context.SaveChanges();
+
+                    return true;
+
+                }
+                catch(Exception ex)
+                {
+
+
+                    return false;
+
+
+
+                }
+
+
+
+
+
+
+            }
+
+
+
+            return false;
+        }
+
+        public ApplicationUser GetUserById(string Id)
+        {
+            
+            try
+            {
+
+                ApplicationUser user = context.Users.Find(Id);
+                return user;
+
+
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
+        public List<Comment> GetCommentsResort(int Id)
+        {
+            List<Comment> list = new List<Comment>();
+            try
+            {
+                list = context.Resorts.Find(Id).Comments.ToList();
+                return list;
+            }
+            catch
+            {
+                return list;
+            }
+        }
+
+        public List<Comment> GetCommentsHotel(int Id)
+        {
+            List<Comment> list = new List<Comment>();
+            try
+            {
+                list = context.Hotels.Find(Id).Comments.ToList();
+                return list;
+            }
+            catch
+            {
+                return list;
+            }
+        }
+
+        public bool RemoveComment(int Id)
+        {
+
+           
+
+            try
+            {
+                Comment comment = context.Comments.Find(Id);
+                context.Comments.Remove(comment);
+                context.SaveChanges();
+                return true;
+
+            }
+            catch
+            {
+                return false;
             }
 
 

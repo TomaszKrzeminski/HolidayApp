@@ -1,0 +1,27 @@
+﻿@using HolidayApp.Models
+@model AddCommentModel
+
+
+<h1>Add Comment</h1>
+
+@using (Html.BeginForm("AddComment", "Home"))
+{
+<div>
+    @Html.Hidden("type",Model.Type)
+</div>
+<div>
+    @Html.Hidden("id", Model.Id)
+</div>
+<div>
+    @Html.TextArea("text")
+</div>
+
+<div>
+    <input type="submit" value="Add" />
+ </div>
+
+
+
+
+
+}

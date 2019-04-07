@@ -2,6 +2,21 @@
 @model SearchModelViewResortHotel
 @{
     ViewBag.Title = "ResortsHotels";
+
+
+    string Country = "";
+    string City = "";
+    string Guestnumber = "";
+    string Bednumber = "";
+    string Bookfrom = "";
+    string Bookto = "";
+
+
+
+
+
+
+
 }
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -12,9 +27,7 @@
     }
 </style>
 
-<div>
-    xxxxxxx
-</div>
+
 
 <div class="container">
     <div class="row">
@@ -96,10 +109,10 @@
                             Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
                         </p>
 
-                        @using (Html.BeginForm("ShowAvailableRoomsHolidayHomes","Home"))
+                        @using (Html.BeginForm("ShowAvailableRoomsHolidayHomes", "Home"))
                         {
 
-                          
+
 
                             for (int i = 0; i < Model.HotelListOfRooms[item].Count; i++)
                             {
@@ -113,13 +126,47 @@
                                     @Html.Hidden("rooms[" + i + "].Kitchen", Model.HotelListOfRooms[item][i].Kitchen, new { })
                                     @Html.Hidden("rooms[" + i + "].Toilet", Model.HotelListOfRooms[item][i].Toilet, new { })
                                     @Html.Hidden("rooms[" + i + "].numberofTelevisions", Model.HotelListOfRooms[item][i].numberofTelevisions, new { })
-                               </div>
-                               
+                                </div>
+
                             }
 
                             <div>
                                 <input type="submit" value="Show" class="btn btn-warning" />
                             </div>
+                        }
+
+                      
+                        @Html.Action("GetComments", new { type = "Hotel", id = item.HotelId })
+
+                        @using (Html.BeginForm("AddComment", "Home"))
+                        {
+                            <div>
+                                @Html.TextArea("text")
+                                @Html.Hidden("id", item.HotelId)
+                                @Html.Hidden("type", "Hotel")
+                            </div>
+                            
+
+                            @Html.Hidden("country", Country)
+
+                            @Html.Hidden("city", City)
+
+                            @Html.Hidden("guestnumber", Guestnumber)
+
+                            @Html.Hidden("bednumber", Bednumber)
+
+
+                            @Html.Hidden("bookfrom", Bookfrom)
+
+                            @Html.Hidden("bookto", Bookto)
+
+
+
+
+
+                            <input type="submit" value="Add Comment " />
+
+
                         }
 
                     </div>
@@ -163,7 +210,7 @@
                             for (int i = 0; i < Model.ResortListOfRooms[item].Count; i++)
                             {
                                 <div>
-                                   
+
 
                                     @Html.Hidden("rooms[" + i + "].RoomId", Model.ResortListOfRooms[item][i].RoomId, new { })
                                     @Html.Hidden("rooms[" + i + "].Price", Model.ResortListOfRooms[item][i].Price, new { })
@@ -183,7 +230,7 @@
                             for (int i = 0; i < Model.ResortListOfHolidayHomes[item].Count; i++)
                             {
                                 <div>
-                                    @Html.Hidden("holidayhomes[" + i + "].RoomId", Model.ResortListOfHolidayHomes[item][i].HolidayHomeId, new { })
+                                    @Html.Hidden("holidayhomes[" + i + "].HolidayHomeId", Model.ResortListOfHolidayHomes[item][i].HolidayHomeId, new { })
                                     @Html.Hidden("holidayhomes[" + i + "].Price", Model.ResortListOfHolidayHomes[item][i].Price, new { })
                                     @Html.Hidden("holidayhomes[" + i + "].numberofGuests", Model.ResortListOfHolidayHomes[item][i].numberofGuests, new { })
                                     @Html.Hidden("holidayhomes[" + i + "].numberofBeds", Model.ResortListOfHolidayHomes[item][i].numberofBeds, new { })
@@ -200,16 +247,74 @@
                             }
 
                             <div>
-                                <input type="submit" value="Show"  class="btn btn-warning"/>
+                                <input type="submit" value="Show" class="btn btn-warning" />
                             </div>
+
+
+                            @Html.Action("GetComments", new { type = "Resort", id = item.ResortId})
+
+
+
+
+
+
+
+
                         }
+
+                        @using (Html.BeginForm("AddComment", "Home"))
+                        {
+                            <div>
+                                @Html.TextArea("text")
+                                @Html.Hidden("id", item.ResortId)
+                                @Html.Hidden("type", "Resort")
+                            </div>
+
+                        
+
+                            ////
+
+
+
+                            @Html.Hidden("country", Country)
+
+                            @Html.Hidden("city", City)
+
+                            @Html.Hidden("guestnumber", Guestnumber)
+
+                            @Html.Hidden("bednumber", Bednumber)
+
+
+                            @Html.Hidden("bookfrom", Bookfrom)
+
+                            @Html.Hidden("bookto", Bookto)
+
+
+
+
+
+
+
+                            ////
+
+
+
+                            <input type="submit" value="Add Comment " />
+
+
+                        }
+
+
+
+                   
+
 
                     </div>
                 </div>
 
 
 
-                }
+            }
 
 
 
@@ -232,16 +337,24 @@
 
     <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
     <script type="text/javascript">
-    $(function () {
-       $('.datepicker').datepicker();
-    });
+        $(function () {
+            $('.datepicker').datepicker();
+        });
+    </script>
+
+    <script>
+
+        Country = $("#country").val
+        City = $("#city").val
+        Guestnumber = $("#guestnumber").val
+        Bednumber = $("#bednumber").val
+        Bookfrom = $("#bookfrom").val
+        Bookto = $("#bookto").val
     </script>
 
 
 
-
-
-
+   
 
 
 

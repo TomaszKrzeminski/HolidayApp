@@ -1,0 +1,47 @@
+﻿@using HolidayApp.Models
+
+@model CommentsView
+<br />
+
+        @foreach (var comment in Model.Comments)
+        {
+         
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                     User   @comment.User.Email
+                    </div>
+                   
+                    <div class="panel-body">
+                        @comment.Text
+                    </div>
+                    
+                  
+
+                  
+
+
+
+                  @if (User.IsInRole("Administrator"))
+                  {
+                    @Html.ActionLink("Remove", "RemoveComment", "Admin", new { id = comment.CommentId }, new { @class = "btn btn-danger" })
+                  }
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+        }   
+           
+
+
+
+       
+  

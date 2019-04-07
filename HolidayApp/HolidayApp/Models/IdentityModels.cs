@@ -19,6 +19,7 @@ namespace HolidayApp.Models
         {
             Resorts = new Collection<Resort>();
             Hotels = new Collection<Hotel>();
+            Comments = new HashSet<Comment>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -32,8 +33,8 @@ namespace HolidayApp.Models
 
         public ICollection<Resort> Resorts { get; set; }
         public ICollection<Hotel> Hotels { get; set; }
+        public  ICollection<Comment> Comments { get; set; }
 
-        
 
 
     }
@@ -53,6 +54,7 @@ namespace HolidayApp.Models
         public virtual DbSet<HolidayHome> HolidayHomes { get; set; }
         public virtual DbSet<Parking> Parkings { get; set; }
         public virtual DbSet<ReserveObject> ReserveObjects { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
 
 
 

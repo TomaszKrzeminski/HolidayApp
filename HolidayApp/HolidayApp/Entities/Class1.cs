@@ -1,4 +1,5 @@
 ﻿using HolidayApp.Abstract;
+using HolidayApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,21 @@ namespace HolidayApp.Entities
     }
 
 
+    public class Comment
+    {
 
+        public int CommentId { get; set; }
+        public string Text { get; set; }
+
+
+        public virtual Hotel Hotel { get; set; }
+        public virtual Resort Resort { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
+
+
+
+    }
 
 
 
@@ -81,6 +96,7 @@ namespace HolidayApp.Entities
             Rooms = new HashSet<Room>();
             Parkings = new HashSet<Parking>();
             HolidayHomes = new HashSet<HolidayHome>();
+            Comments = new HashSet<Comment>();
         }
 
 
@@ -91,6 +107,7 @@ namespace HolidayApp.Entities
             Rooms = new HashSet<Room>();
             Parkings = new HashSet<Parking>();
             HolidayHomes = new HashSet<HolidayHome>();
+            Comments = new HashSet<Comment>();
         }
 
         public int ResortId { get; set; }
@@ -107,6 +124,7 @@ namespace HolidayApp.Entities
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<Parking> Parkings { get; set; }
         public virtual ICollection<HolidayHome> HolidayHomes { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public string AddPathToEntity(int Id, string Path)
         {
@@ -135,6 +153,7 @@ namespace HolidayApp.Entities
             Images = new HashSet<Image>();
             Rooms = new HashSet<Room>();
             Parkings = new HashSet<Parking>();
+            Comments = new HashSet<Comment>();
 
         }
 
@@ -143,6 +162,7 @@ namespace HolidayApp.Entities
             Images = new HashSet<Image>();
             Rooms = new HashSet<Room>();
             Parkings = new HashSet<Parking>();
+            Comments = new HashSet<Comment>();
         }
 
         public string AddPathToEntity(int Id, string Path)
@@ -171,6 +191,7 @@ namespace HolidayApp.Entities
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<Parking> Parkings { get; set; }
         public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 
 

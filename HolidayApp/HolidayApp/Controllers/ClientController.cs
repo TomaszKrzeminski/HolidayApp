@@ -117,8 +117,8 @@ namespace HolidayApp.Controllers
 
 
 
-                return View("~/Views/Client/Book/HolidayHome.cshtml", viewmodel);
-               
+                //return View("~/Views/Client/Book/HolidayHome.cshtml", viewmodel);
+                return View("~/Views/Client/BookHolidayHome.cshtml", viewmodel);
 
 
             }

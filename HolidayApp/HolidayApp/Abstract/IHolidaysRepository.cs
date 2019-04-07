@@ -62,6 +62,12 @@ namespace HolidayApp.Abstract
         List<Resort> GetResortsByCountryAndCity(string Country, string City);
         List<Hotel> GetHotelsByCountryAndCity(string Country, string City);
 
+        bool AddComment(Resort resort,Hotel hotel,ApplicationUser user,string text);
+        ApplicationUser GetUserById(string Id);
+        List<Comment> GetCommentsResort(int Id);
+        List<Comment> GetCommentsHotel(int Id);
+        bool RemoveComment(int Id);
+
 
 
     }

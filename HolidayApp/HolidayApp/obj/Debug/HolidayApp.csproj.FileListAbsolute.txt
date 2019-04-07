@@ -215,6 +215,6 @@ C:\HolidayApp\HolidayApp\HolidayApp\bin\Microsoft.AI.WindowsServer.xml
 C:\HolidayApp\HolidayApp\HolidayApp\bin\Microsoft.AI.Web.xml
 C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.dll
 C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.pdb
-C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.Migrations.One.resources
-C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.csproj.GenerateResource.Cache
 C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.csprojResolveAssemblyReference.cache
+C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.Migrations.First.resources
+C:\HolidayApp\HolidayApp\HolidayApp\obj\Debug\HolidayApp.csproj.GenerateResource.Cache

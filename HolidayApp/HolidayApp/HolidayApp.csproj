@@ -207,6 +207,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Concrete\EFHoidayRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -216,18 +217,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Migrations\201903131752271_One.cs" />
-    <Compile Include="Migrations\201903131752271_One.Designer.cs">
-      <DependentUpon>201903131752271_One.cs</DependentUpon>
+    <Compile Include="Migrations\201903291804218_First.cs" />
+    <Compile Include="Migrations\201903291804218_First.Designer.cs">
+      <DependentUpon>201903291804218_First.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddCommentModel.cs" />
     <Compile Include="Models\AddHolidayHomeViewModel.cs" />
     <Compile Include="Models\AddImagesModel.cs" />
     <Compile Include="Models\AddParkingViewModel.cs" />
     <Compile Include="Models\AddRoomViewModel.cs" />
     <Compile Include="Models\BookViewModel.cs" />
     <Compile Include="Models\CheckBookingModel.cs" />
+    <Compile Include="Models\CommentsView.cs" />
     <Compile Include="Models\FiltrClass.cs" />
     <Compile Include="Models\HolidayViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -477,6 +480,10 @@
     <Content Include="Views\Client\BookHolidayHome.cshtml" />
     <Content Include="Views\Client\BookRoom.cshtml" />
     <Content Include="Views\Home\FiltrResortHotel.cshtml" />
+    <Content Include="Views\Home\GetComments.cshtml" />
+    <Content Include="Views\Home\AddComment.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Admin\RemoveCommentError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -495,8 +502,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903131752271_One.resx">
-      <DependentUpon>201903131752271_One.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903291804218_First.resx">
+      <DependentUpon>201903291804218_First.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

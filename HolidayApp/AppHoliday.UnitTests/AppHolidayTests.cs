@@ -257,6 +257,24 @@ namespace AppHoliday.UnitTests
         public void when_calling_AddComment_returns_view_Error()
         {
 
+            Mock<IHolidaysRepository> mock = new Mock<IHolidaysRepository>();
+            mock.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(new ApplicationUser() {UserName="User1",Id="aaa-bbb-ccc" });
+          
+            mock.Setup(x => x.GetHotelByID(It.IsAny<int>())).Returns(new Hotel() { Name = "Hotel Kraków", City = "Kraków", Country = "Poland", TelephoneNumber = 777888666 });
+            mock.Setup(x => x.GetResortByID(It.IsAny<int>())).Returns(new Resort() { Name = "Resort Władysławowo", City = "Władysławowo", Country = "Poland", TelephoneNumber = 794219756 });
+            mock.Setup(x => x.AddComment(null, It.IsAny<Hotel>(), It.IsAny<ApplicationUser>(), It.IsAny<string>())).Returns(false);
+            HomeController controller = new HomeController(mock.Object, () => "aaa-bbb-ddd");
+
+
+
+            ViewResult result = ((ViewResult)controller.AddComment("", ""));
+
+
+            Assert.AreEqual(result.ViewName, "Error");
+
+
+
+
 
 
 
@@ -267,6 +285,29 @@ namespace AppHoliday.UnitTests
         public void when_calling_AddComment_returns_view_FiltrResortHotel()
         {
 
+            Mock<IHolidaysRepository> mock = new Mock<IHolidaysRepository>();
+            mock.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(new ApplicationUser() { UserName = "User1", Id = "aaa-bbb-ccc" });
+
+            List<Hotel> listHotel = new List<Hotel>() { new Hotel() { Name = "Hotel Kraków", City = "Kraków", Country = "Poland", TelephoneNumber = 777888666 } };
+
+            Mock<FiltrResortHotel> mockAbstract = new Mock<FiltrResortHotel>();
+            mockAbstract.Setup(x => x.Hotels).Returns(listHotel);
+
+            mock.Setup(x => x.GetHotelByID(It.IsAny<int>())).Returns(new Hotel() { Name = "Hotel Kraków", City = "Kraków", Country = "Poland", TelephoneNumber = 777888666 });
+            mock.Setup(x => x.GetResortByID(It.IsAny<int>())).Returns(new Resort() { Name = "Resort Władysławowo", City = "Władysławowo", Country = "Poland", TelephoneNumber = 794219756 });
+            mock.Setup(x => x.AddComment(null, It.IsAny<Hotel>(), It.IsAny<ApplicationUser>(), It.IsAny<string>())).Returns(true);
+            HomeController controller = new HomeController(mock.Object, () => "aaa-bbb-ddd",mockAbstract.Object);
+
+
+
+            ViewResult result = ((ViewResult)controller.AddComment("Poland", "Kraków", 1,2, new DateTime(2019, 8, 25), new DateTime(2019, 8, 25),"Hotel",1,"text"));
+
+
+            Assert.AreEqual(result.ViewName, "FiltrResortHotel");
+
+            SearchModelViewResortHotel model = (SearchModelViewResortHotel)result.Model;
+            Assert.AreEqual(model.Hotels.First().City, "Kraków");
+
 
 
 
@@ -275,7 +316,7 @@ namespace AppHoliday.UnitTests
 
 
         [Test]
-        public void when_calling_AddComment_returns_view_FiltrResortHotel()
+        public void when_calling_AddComment_returns_view_FiltrResortHotel2()
         {
 
 

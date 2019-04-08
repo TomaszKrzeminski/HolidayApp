@@ -102,7 +102,6 @@ C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\Microsoft.AspNet.Identit
 C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\Microsoft.Owin.Security.dll
 C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\Owin.dll
 C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\EntityFramework.dll
-C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
 C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
 C:\HolidayApp\HolidayApp\AppHoliday.UnitTests\bin\Debug\HolidayApp.pdb

@@ -109,8 +109,8 @@ namespace HolidayApp.Models
             set;
         }
 
-        public List<Hotel> Hotels { get; set; }
-        public List<Resort> Resorts { get; set; }
+        public virtual List<Hotel> Hotels { get; set; }
+        public virtual List<Resort> Resorts { get; set; }
         /// 
 
         public Dictionary<Hotel, List<Room>> HotelListOfRooms { get; set; }

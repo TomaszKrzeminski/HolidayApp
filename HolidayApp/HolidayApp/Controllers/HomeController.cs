@@ -14,11 +14,34 @@ namespace HolidayApp.Controllers
     {
 
         private IHolidaysRepository repository;
+        private Func<string> GetUserId;
+        private FiltrResortHotel filtr;
 
         public HomeController(IHolidaysRepository repoparam)
         {
 
             repository = repoparam;
+            GetUserId = () => User.Identity.GetUserId();
+            filtr = new FiltrClassResortHotel(repository);
+        }
+
+
+        public HomeController(IHolidaysRepository repoparam,Func<string> GetUserId)
+        {
+
+            repository = repoparam;
+            this.GetUserId = GetUserId;
+            filtr = new FiltrClassResortHotel(repository);
+
+        }
+
+
+        public HomeController(IHolidaysRepository repoparam, Func<string> GetUserId,FiltrResortHotel filtr)
+        {
+
+            repository = repoparam;
+            this.GetUserId = GetUserId;
+            this.filtr = filtr;
 
         }
 
@@ -62,7 +85,7 @@ namespace HolidayApp.Controllers
         public ActionResult AddComment( string country, string city, int guestnumber = 0, int bednumber = 0, DateTime? bookfrom = null, DateTime? bookto = null, string type="Hotel" , int id=0 , string text="")
         {
           
-            ApplicationUser user = repository.GetUserById(User.Identity.GetUserId());
+            ApplicationUser user = repository.GetUserById(GetUserId());
             bool Succes = false;
             if (type == "Hotel")
             {
@@ -79,7 +102,7 @@ namespace HolidayApp.Controllers
             if(Succes)
             {
 
-                FiltrClassResortHotel filtrclass = new FiltrClassResortHotel(repository);
+                FiltrResortHotel filtrclass = filtr;
                 filtrclass.Country = country;
                 filtrclass.City = city;
                 filtrclass.GuestNumber = guestnumber;

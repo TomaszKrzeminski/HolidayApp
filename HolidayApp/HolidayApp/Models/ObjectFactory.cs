@@ -8,7 +8,19 @@ using System.Web;
 namespace HolidayApp.Models
 {
 
-    public class FiltrFactory
+
+    public interface IFiltrFactory
+    {
+
+        FiltrRoomHolidayHome CreateObject(Choose choose);
+
+
+    }
+
+
+
+
+    public class FiltrFactory: IFiltrFactory
     {
         IHolidaysRepository repository;
         public FiltrFactory(IHolidaysRepository repo)

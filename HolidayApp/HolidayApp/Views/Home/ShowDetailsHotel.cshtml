@@ -9,39 +9,39 @@
 <h2>@Model.Name</h2>
 
 <div class="container">
-   
-         
-
-        <div class="row">
-            @foreach (var item in Model.Images)
-            {
-                
-                    
-
-
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <a href="@item.Hotel.Name">
-                            <img src="@Url.Content(@item.ImagePath)"  class="img-responsive">
-                         
-
-
-                        </a>
-                    </div>
-                </div>
 
 
 
-
-
-            }
-        </div>
-    
-
-   
-    
     <div class="row">
-       
+        @foreach (var item in Model.Images)
+        {
+
+
+
+
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <a href="@item.Hotel.Name">
+                        <img src="@Url.Content(@item.ImagePath)" class="img-responsive">
+
+
+
+                    </a>
+                </div>
+            </div>
+
+
+
+
+
+        }
+    </div>
+
+
+
+
+    <div class="row">
+
         <div class="col-lg-4" id="Stats">
             <table class="table-responsive">
 
@@ -73,7 +73,47 @@
 
 
 
+
+
         </div>
+
+
     </div>
+</div>
 
 </div>
+@using (Html.BeginForm("ShowAvailableRoomsHolidayHomes", "Home"))
+{
+    <div>
+
+        @if (Model.Rooms.Count > 0)
+        {
+
+
+
+
+
+            for (int i = 0; i < Model.Rooms.Count; i++)
+            {
+
+
+
+        @Html.Hidden("rooms[" + i + "].RoomId", Model.Rooms.ElementAt(i).RoomId, new { })
+        @Html.Hidden("rooms[" + i + "].Price", Model.Rooms.ElementAt(i).Price, new { })
+        @Html.Hidden("rooms[" + i + "].numberofGuests", Model.Rooms.ElementAt(i).numberofGuests, new { })
+        @Html.Hidden("rooms[" + i + "].numberofBeds", Model.Rooms.ElementAt(i).numberofBeds, new { })
+        @Html.Hidden("rooms[" + i + "].doubleBed", Model.Rooms.ElementAt(i).doubleBed, new { })
+        @Html.Hidden("rooms[" + i + "].petsAllowed", Model.Rooms.ElementAt(i).petsAllowed, new { })
+        @Html.Hidden("rooms[" + i + "].Kitchen", Model.Rooms.ElementAt(i).Kitchen, new { })
+        @Html.Hidden("rooms[" + i + "].Toilet", Model.Rooms.ElementAt(i).Toilet, new { })
+        @Html.Hidden("rooms[" + i + "].numberofTelevisions", Model.Rooms.ElementAt(i).numberofTelevisions, new { })
+        }
+
+
+        }
+    </div>
+
+    <div>
+        <input type="submit" value="Show Rooms" class="form-control" />
+    </div>
+        }

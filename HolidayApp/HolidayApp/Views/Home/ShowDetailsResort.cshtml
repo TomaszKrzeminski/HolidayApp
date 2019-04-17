@@ -63,5 +63,80 @@
 
         </div>
     </div>
+    @using (Html.BeginForm("ShowAvailableRoomsHolidayHomes", "Home"))
+    {
+        <div>
 
+            @if (Model.Rooms.Count > 0)
+            {
+
+
+
+
+
+                for (int i = 0; i < Model.Rooms.Count; i++)
+                {
+
+
+
+                    @Html.Hidden("rooms[" + i + "].RoomId", Model.Rooms.ElementAt(i).RoomId, new { })
+                    @Html.Hidden("rooms[" + i + "].Price", Model.Rooms.ElementAt(i).Price, new { })
+                    @Html.Hidden("rooms[" + i + "].numberofGuests", Model.Rooms.ElementAt(i).numberofGuests, new { })
+                    @Html.Hidden("rooms[" + i + "].numberofBeds", Model.Rooms.ElementAt(i).numberofBeds, new { })
+                    @Html.Hidden("rooms[" + i + "].doubleBed", Model.Rooms.ElementAt(i).doubleBed, new { })
+                    @Html.Hidden("rooms[" + i + "].petsAllowed", Model.Rooms.ElementAt(i).petsAllowed, new { })
+                    @Html.Hidden("rooms[" + i + "].Kitchen", Model.Rooms.ElementAt(i).Kitchen, new { })
+                    @Html.Hidden("rooms[" + i + "].Toilet", Model.Rooms.ElementAt(i).Toilet, new { })
+                    @Html.Hidden("rooms[" + i + "].numberofTelevisions", Model.Rooms.ElementAt(i).numberofTelevisions, new { })
+                }
+
+
+            }
+
+
+
+            @if (Model.Rooms.Count > 0)
+            {
+
+
+
+
+
+                for (int i = 0; i < Model.HolidayHomes.Count; i++)
+                {
+
+
+                    @Html.Hidden("holidayhomes[" + i + "].HolidayHomeId", Model.HolidayHomes.ElementAt(i).HolidayHomeId, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].Price", Model.HolidayHomes.ElementAt(i).Price, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].numberofGuests", Model.HolidayHomes.ElementAt(i).numberofGuests, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].numberofBeds", Model.HolidayHomes.ElementAt(i).numberofBeds, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].doubleBed", Model.HolidayHomes.ElementAt(i).doubleBed, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].petsAllowed", Model.HolidayHomes.ElementAt(i).petsAllowed, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].Kitchen", Model.HolidayHomes.ElementAt(i).Kitchen, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].Toilet", Model.HolidayHomes.ElementAt(i).Toilet, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].numberofTelevisions", Model.HolidayHomes.ElementAt(i).numberofTelevisions, new { })
+                    @Html.Hidden("holidayhomes[" + i + "].numberofFloors", Model.HolidayHomes.ElementAt(i).numberofFloors, new { })
+
+                }
+
+
+            }
+
+
+
+         
+
+          
+
+
+
+
+
+          
+        </div>
+
+        <div>
+            <input type="submit" value="Show Rooms Holidayhomes" class="form-control" />
+        </div>
+    }
 </div>

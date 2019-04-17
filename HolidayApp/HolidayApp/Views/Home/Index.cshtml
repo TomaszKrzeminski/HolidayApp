@@ -101,7 +101,7 @@
                                     Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum.
                                 </p>
 
-
+                                @Html.ActionLink("Show", "ShowDetailsHotel", "Home", new { id = item.HotelId }, new { @class="btn btn-primary"})
 
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                         </p>
 
 
-
+                        @Html.ActionLink("Show", "ShowDetailsResort", "Home", new { id = item.ResortId }, new { @class = "btn btn-primary" })
                     </div>
                 </div>
 

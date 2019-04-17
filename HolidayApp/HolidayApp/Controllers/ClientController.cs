@@ -63,16 +63,16 @@ namespace HolidayApp.Controllers
 
 
 
-        public ActionResult ShowWhenBooked(int Id)
-        {
-            return PartialView();
-        }
+        //public ActionResult ShowWhenBooked(int Id)
+        //{
+        //    return PartialView();
+        //}
 
 
-        public ActionResult ReserveRoom()
-        {
-            return View();
-        }
+        //public ActionResult ReserveRoom()
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
         public ActionResult ReserveHolidayHome(ReverveHolidayHomeModel model)

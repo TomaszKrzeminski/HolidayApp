@@ -16,6 +16,8 @@ namespace HolidayApp.Controllers
         private IHolidaysRepository repository;
         private Func<string> GetUserId;
         private FiltrResortHotel filtr;
+        private IFiltrFactory filtrfactory;
+        private FiltrRoomHolidayHome filtrroomholidayhome;
 
         public HomeController(IHolidaysRepository repoparam)
         {
@@ -23,15 +25,20 @@ namespace HolidayApp.Controllers
             repository = repoparam;
             GetUserId = () => User.Identity.GetUserId();
             filtr = new FiltrClassResortHotel(repository);
-        }
+            filtrfactory = new FiltrFactory(repository);
+            filtrroomholidayhome = new FiltrClassHolidayHome(repository);
+
+    }
 
 
-        public HomeController(IHolidaysRepository repoparam,Func<string> GetUserId)
+    public HomeController(IHolidaysRepository repoparam,Func<string> GetUserId)
         {
 
             repository = repoparam;
             this.GetUserId = GetUserId;
             filtr = new FiltrClassResortHotel(repository);
+            filtrfactory = new FiltrFactory(repository);
+            filtrroomholidayhome = new FiltrClassHolidayHome(repository);
 
         }
 
@@ -42,6 +49,30 @@ namespace HolidayApp.Controllers
             repository = repoparam;
             this.GetUserId = GetUserId;
             this.filtr = filtr;
+            filtrfactory = new FiltrFactory(repository);
+            filtrroomholidayhome = new FiltrClassHolidayHome(repository);
+        }
+
+
+        public HomeController(IHolidaysRepository repoparam, Func<string> GetUserId, FiltrResortHotel filtr,IFiltrFactory filtrfactory)
+        {
+
+            repository = repoparam;
+            this.GetUserId = GetUserId;
+            this.filtr = filtr;
+            this.filtrfactory = filtrfactory;
+            filtrroomholidayhome = new FiltrClassHolidayHome(repository);
+
+        }
+
+        public HomeController(IHolidaysRepository repoparam, Func<string> GetUserId, FiltrResortHotel filtr, IFiltrFactory filtrfactory,FiltrRoomHolidayHome filtrroomholidayhome)
+        {
+
+            repository = repoparam;
+            this.GetUserId = GetUserId;
+            this.filtr = filtr;
+            this.filtrfactory = filtrfactory;
+            this.filtrroomholidayhome = filtrroomholidayhome;
 
         }
 
@@ -230,7 +261,7 @@ namespace HolidayApp.Controllers
 
 
 
-            FiltrClassResortHotel filtrclass = new FiltrClassResortHotel(repository);
+            FiltrResortHotel filtrclass = filtr;
             filtrclass.Country = country;
             filtrclass.City = city;
             filtrclass.GuestNumber = guestnumber;
@@ -320,7 +351,7 @@ namespace HolidayApp.Controllers
 
 
 
-            FiltrFactory factory = new FiltrFactory(repository);
+            IFiltrFactory factory = filtrfactory;
             FiltrRoomHolidayHome filtrclass = factory.CreateObject(choose);
             filtrclass.Country = country;
             filtrclass.City = city;
@@ -398,39 +429,39 @@ namespace HolidayApp.Controllers
             return View(resort);
         }
 
-        public ActionResult GetDetails()
-        {
+        //public ActionResult GetDetails()
+        //{
 
 
 
-            return PartialView();
-        }
+        //    return PartialView();
+        //}
 
 
-        public ActionResult SortElementsinDetails()
-        {
-
-
-
-            return PartialView();
-        }
-        public ActionResult SortElements()
-        {
-
-
-            return PartialView();
-        }
+        //public ActionResult SortElementsinDetails()
+        //{
 
 
 
-        public ActionResult ShowResults()
-        {
+        //    return PartialView();
+        //}
+        //public ActionResult SortElements()
+        //{
+
+
+        //    return PartialView();
+        //}
+
+
+
+        //public ActionResult ShowResults()
+        //{
 
 
 
 
-            return PartialView();
-        }
+        //    return PartialView();
+        //}
 
     }
 }

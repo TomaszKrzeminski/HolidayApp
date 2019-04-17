@@ -34,8 +34,8 @@ namespace HolidayApp.Models
             set;
         }
 
-        public List<Room> Rooms { get; set; }
-        public List<HolidayHome> HolidayHomes { get; set; }
+        public virtual List<Room> Rooms { get; set; }
+        public virtual List<HolidayHome> HolidayHomes { get; set; }
 
         public virtual List<Room> GetRooms()
         {
